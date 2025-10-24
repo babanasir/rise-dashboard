@@ -1,46 +1,2006 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>RISE Materials Dashboard</title>
-    <link rel="stylesheet" href="styles.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RISE Material Development Tracking Dashboard</title>
+    <style>
+        :root {
+  /* Primitive Color Tokens */
+  --color-white: rgba(255, 255, 255, 1);
+  --color-black: rgba(0, 0, 0, 1);
+  --color-cream-50: rgba(252, 252, 249, 1);
+  --color-cream-100: rgba(255, 255, 253, 1);
+  --color-gray-200: rgba(245, 245, 245, 1);
+  --color-gray-300: rgba(167, 169, 169, 1);
+  --color-gray-400: rgba(119, 124, 124, 1);
+  --color-slate-500: rgba(98, 108, 113, 1);
+  --color-brown-600: rgba(94, 82, 64, 1);
+  --color-charcoal-700: rgba(31, 33, 33, 1);
+  --color-charcoal-800: rgba(38, 40, 40, 1);
+  --color-slate-900: rgba(19, 52, 59, 1);
+  --color-teal-300: rgba(50, 184, 198, 1);
+  --color-teal-400: rgba(45, 166, 178, 1);
+  --color-teal-500: rgba(33, 128, 141, 1);
+  --color-teal-600: rgba(29, 116, 128, 1);
+  --color-teal-700: rgba(26, 104, 115, 1);
+  --color-teal-800: rgba(41, 150, 161, 1);
+  --color-red-400: rgba(255, 84, 89, 1);
+  --color-red-500: rgba(192, 21, 47, 1);
+  --color-orange-400: rgba(230, 129, 97, 1);
+  --color-orange-500: rgba(168, 75, 47, 1);
+
+  /* RGB versions for opacity control */
+  --color-brown-600-rgb: 94, 82, 64;
+  --color-teal-500-rgb: 33, 128, 141;
+  --color-slate-900-rgb: 19, 52, 59;
+  --color-slate-500-rgb: 98, 108, 113;
+  --color-red-500-rgb: 192, 21, 47;
+  --color-red-400-rgb: 255, 84, 89;
+  --color-orange-500-rgb: 168, 75, 47;
+  --color-orange-400-rgb: 230, 129, 97;
+
+  /* Background color tokens (Light Mode) */
+  --color-bg-1: rgba(59, 130, 246, 0.08); /* Light blue */
+  --color-bg-2: rgba(245, 158, 11, 0.08); /* Light yellow */
+  --color-bg-3: rgba(34, 197, 94, 0.08); /* Light green */
+  --color-bg-4: rgba(239, 68, 68, 0.08); /* Light red */
+  --color-bg-5: rgba(147, 51, 234, 0.08); /* Light purple */
+  --color-bg-6: rgba(249, 115, 22, 0.08); /* Light orange */
+  --color-bg-7: rgba(236, 72, 153, 0.08); /* Light pink */
+  --color-bg-8: rgba(6, 182, 212, 0.08); /* Light cyan */
+
+  /* Semantic Color Tokens (Light Mode) */
+  --color-background: var(--color-cream-50);
+  --color-surface: var(--color-cream-100);
+  --color-text: var(--color-slate-900);
+  --color-text-secondary: var(--color-slate-500);
+  --color-primary: var(--color-teal-500);
+  --color-primary-hover: var(--color-teal-600);
+  --color-primary-active: var(--color-teal-700);
+  --color-secondary: rgba(var(--color-brown-600-rgb), 0.12);
+  --color-secondary-hover: rgba(var(--color-brown-600-rgb), 0.2);
+  --color-secondary-active: rgba(var(--color-brown-600-rgb), 0.25);
+  --color-border: rgba(var(--color-brown-600-rgb), 0.2);
+  --color-btn-primary-text: var(--color-cream-50);
+  --color-card-border: rgba(var(--color-brown-600-rgb), 0.12);
+  --color-card-border-inner: rgba(var(--color-brown-600-rgb), 0.12);
+  --color-error: var(--color-red-500);
+  --color-success: var(--color-teal-500);
+  --color-warning: var(--color-orange-500);
+  --color-info: var(--color-slate-500);
+  --color-focus-ring: rgba(var(--color-teal-500-rgb), 0.4);
+  --color-select-caret: rgba(var(--color-slate-900-rgb), 0.8);
+
+  /* Common style patterns */
+  --focus-ring: 0 0 0 3px var(--color-focus-ring);
+  --focus-outline: 2px solid var(--color-primary);
+  --status-bg-opacity: 0.15;
+  --status-border-opacity: 0.25;
+  --select-caret-light: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23134252' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  --select-caret-dark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23f5f5f5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+
+  /* RGB versions for opacity control */
+  --color-success-rgb: 33, 128, 141;
+  --color-error-rgb: 192, 21, 47;
+  --color-warning-rgb: 168, 75, 47;
+  --color-info-rgb: 98, 108, 113;
+
+  /* Typography */
+  --font-family-base: "FKGroteskNeue", "Geist", "Inter", -apple-system,
+    BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-family-mono: "Berkeley Mono", ui-monospace, SFMono-Regular, Menlo,
+    Monaco, Consolas, monospace;
+  --font-size-xs: 11px;
+  --font-size-sm: 12px;
+  --font-size-base: 14px;
+  --font-size-md: 14px;
+  --font-size-lg: 16px;
+  --font-size-xl: 18px;
+  --font-size-2xl: 20px;
+  --font-size-3xl: 24px;
+  --font-size-4xl: 30px;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 550;
+  --font-weight-bold: 600;
+  --line-height-tight: 1.2;
+  --line-height-normal: 1.5;
+  --letter-spacing-tight: -0.01em;
+
+  /* Spacing */
+  --space-0: 0;
+  --space-1: 1px;
+  --space-2: 2px;
+  --space-4: 4px;
+  --space-6: 6px;
+  --space-8: 8px;
+  --space-10: 10px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --space-20: 20px;
+  --space-24: 24px;
+  --space-32: 32px;
+
+  /* Border Radius */
+  --radius-sm: 6px;
+  --radius-base: 8px;
+  --radius-md: 10px;
+  --radius-lg: 12px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.02);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.04),
+    0 2px 4px -1px rgba(0, 0, 0, 0.02);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.04),
+    0 4px 6px -2px rgba(0, 0, 0, 0.02);
+  --shadow-inset-sm: inset 0 1px 0 rgba(255, 255, 255, 0.15),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.03);
+
+  /* Animation */
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --ease-standard: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Layout */
+  --container-sm: 640px;
+  --container-md: 768px;
+  --container-lg: 1024px;
+  --container-xl: 1280px;
+}
+
+/* Dark mode colors */
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* RGB versions for opacity control (Dark Mode) */
+    --color-gray-400-rgb: 119, 124, 124;
+    --color-teal-300-rgb: 50, 184, 198;
+    --color-gray-300-rgb: 167, 169, 169;
+    --color-gray-200-rgb: 245, 245, 245;
+
+    /* Background color tokens (Dark Mode) */
+    --color-bg-1: rgba(29, 78, 216, 0.15); /* Dark blue */
+    --color-bg-2: rgba(180, 83, 9, 0.15); /* Dark yellow */
+    --color-bg-3: rgba(21, 128, 61, 0.15); /* Dark green */
+    --color-bg-4: rgba(185, 28, 28, 0.15); /* Dark red */
+    --color-bg-5: rgba(107, 33, 168, 0.15); /* Dark purple */
+    --color-bg-6: rgba(194, 65, 12, 0.15); /* Dark orange */
+    --color-bg-7: rgba(190, 24, 93, 0.15); /* Dark pink */
+    --color-bg-8: rgba(8, 145, 178, 0.15); /* Dark cyan */
+
+    /* Semantic Color Tokens (Dark Mode) */
+    --color-background: var(--color-charcoal-700);
+    --color-surface: var(--color-charcoal-800);
+    --color-text: var(--color-gray-200);
+    --color-text-secondary: rgba(var(--color-gray-300-rgb), 0.7);
+    --color-primary: var(--color-teal-300);
+    --color-primary-hover: var(--color-teal-400);
+    --color-primary-active: var(--color-teal-800);
+    --color-secondary: rgba(var(--color-gray-400-rgb), 0.15);
+    --color-secondary-hover: rgba(var(--color-gray-400-rgb), 0.25);
+    --color-secondary-active: rgba(var(--color-gray-400-rgb), 0.3);
+    --color-border: rgba(var(--color-gray-400-rgb), 0.3);
+    --color-error: var(--color-red-400);
+    --color-success: var(--color-teal-300);
+    --color-warning: var(--color-orange-400);
+    --color-info: var(--color-gray-300);
+    --color-focus-ring: rgba(var(--color-teal-300-rgb), 0.4);
+    --color-btn-primary-text: var(--color-slate-900);
+    --color-card-border: rgba(var(--color-gray-400-rgb), 0.2);
+    --color-card-border-inner: rgba(var(--color-gray-400-rgb), 0.15);
+    --shadow-inset-sm: inset 0 1px 0 rgba(255, 255, 255, 0.1),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+    --button-border-secondary: rgba(var(--color-gray-400-rgb), 0.2);
+    --color-border-secondary: rgba(var(--color-gray-400-rgb), 0.2);
+    --color-select-caret: rgba(var(--color-gray-200-rgb), 0.8);
+
+    /* Common style patterns - updated for dark mode */
+    --focus-ring: 0 0 0 3px var(--color-focus-ring);
+    --focus-outline: 2px solid var(--color-primary);
+    --status-bg-opacity: 0.15;
+    --status-border-opacity: 0.25;
+    --select-caret-light: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23134252' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    --select-caret-dark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23f5f5f5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+
+    /* RGB versions for dark mode */
+    --color-success-rgb: var(--color-teal-300-rgb);
+    --color-error-rgb: var(--color-red-400-rgb);
+    --color-warning-rgb: var(--color-orange-400-rgb);
+    --color-info-rgb: var(--color-gray-300-rgb);
+  }
+}
+
+/* Base styles */
+html {
+  font-size: var(--font-size-base);
+  font-family: var(--font-family-base);
+  line-height: var(--line-height-normal);
+  color: var(--color-text);
+  background-color: var(--color-background);
+  -webkit-font-smoothing: antialiased;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--color-background);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+@font-face {
+  font-family: 'FKGroteskNeue';
+  src: url('https://r2cdn.perplexity.ai/fonts/FKGroteskNeue.woff2')
+    format('woff2');
+}
+
+        /* Dashboard-specific styles */
+        .dashboard {
+            min-height: 100vh;
+            background-color: var(--color-background);
+            padding: var(--space-24);
+        }
+
+        .container {
+            max-width: var(--container-xl);
+            margin: 0 auto;
+        }
+
+        /* Header Section */
+        .header {
+            text-align: center;
+            margin-bottom: var(--space-32);
+            padding-bottom: var(--space-24);
+            border-bottom: 2px solid var(--color-border);
+        }
+
+        .header h1 {
+            font-size: var(--font-size-4xl);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-text);
+            margin-bottom: var(--space-8);
+            letter-spacing: var(--letter-spacing-tight);
+        }
+
+        .header .subtitle {
+            font-size: var(--font-size-xl);
+            color: var(--color-text-secondary);
+            margin-bottom: var(--space-16);
+        }
+
+        .header .date-time {
+            font-size: var(--font-size-base);
+            color: var(--color-text-secondary);
+            background: var(--color-secondary);
+            padding: var(--space-8) var(--space-16);
+            border-radius: var(--radius-full);
+            display: inline-block;
+        }
+
+        /* Key Metrics Cards */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--space-20);
+            margin-bottom: var(--space-32);
+        }
+
+        .metric-card {
+            background: var(--color-surface);
+            border: 1px solid var(--color-card-border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-24);
+            box-shadow: var(--shadow-sm);
+            transition: all var(--duration-normal) var(--ease-standard);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .metric-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--metric-color, var(--color-primary));
+        }
+
+        .metric-card.total::before { --metric-color: var(--color-primary); }
+        .metric-card.draft-ready::before { --metric-color: #3b82f6; }
+        .metric-card.review-ongoing::before { --metric-color: #f59e0b; }
+        .metric-card.review-completed::before { --metric-color: #10b981; }
+
+        .metric-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: var(--space-16);
+        }
+
+        .metric-icon {
+            font-size: var(--font-size-3xl);
+            margin-right: var(--space-12);
+        }
+
+        .metric-label {
+            font-size: var(--font-size-base);
+            color: var(--color-text-secondary);
+            font-weight: var(--font-weight-medium);
+        }
+
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: var(--font-weight-bold);
+            color: var(--color-text);
+            line-height: 1;
+        }
+
+        .metric-percentage {
+            font-size: var(--font-size-sm);
+            color: var(--color-text-secondary);
+            margin-top: var(--space-4);
+        }
+
+        /* Progress Section */
+        .progress-section {
+            background: var(--color-surface);
+            border: 1px solid var(--color-card-border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-32);
+            margin-bottom: var(--space-32);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .progress-header {
+            text-align: center;
+            margin-bottom: var(--space-24);
+        }
+
+        .progress-title {
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-text);
+            margin-bottom: var(--space-8);
+        }
+
+        .progress-stats {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-32);
+            margin-bottom: var(--space-24);
+        }
+
+        .progress-stat {
+            text-align: center;
+        }
+
+        .progress-stat-value {
+            font-size: 2rem;
+            font-weight: var(--font-weight-bold);
+            color: var(--color-text);
+        }
+
+        .progress-stat-label {
+            font-size: var(--font-size-sm);
+            color: var(--color-text-secondary);
+            margin-top: var(--space-4);
+        }
+
+        .progress-bar-container {
+            background: var(--color-secondary);
+            border-radius: var(--radius-full);
+            height: 24px;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: var(--space-16);
+        }
+
+        .progress-bar {
+            height: 100%;
+            display: flex;
+            border-radius: var(--radius-full);
+        }
+
+        .progress-segment {
+            height: 100%;
+            transition: width var(--duration-normal) var(--ease-standard);
+        }
+
+        .progress-segment.draft-ready {
+            background: #3b82f6;
+        }
+
+        .progress-segment.review-ongoing {
+            background: #f59e0b;
+        }
+
+        .progress-segment.review-completed {
+            background: #10b981;
+        }
+
+        /* Status Table */
+        .status-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-24);
+            margin-bottom: var(--space-32);
+        }
+
+        .status-table {
+            background: var(--color-surface);
+            border: 1px solid var(--color-card-border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-24);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .table-title {
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-text);
+            margin-bottom: var(--space-16);
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table th,
+        .table td {
+            text-align: left;
+            padding: var(--space-12);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .table th {
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-sm);
+        }
+
+        .table td {
+            color: var(--color-text);
+        }
+
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-8);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .status-dot.draft-ready { background: #3b82f6; }
+        .status-dot.review-ongoing { background: #f59e0b; }
+        .status-dot.review-completed { background: #10b981; }
+
+        /* Additional Details */
+        .details-card {
+            background: var(--color-surface);
+            border: 1px solid var(--color-card-border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-24);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .details-title {
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-text);
+            margin-bottom: var(--space-16);
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--space-12) 0;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .detail-item:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-base);
+        }
+
+        .detail-value {
+            color: var(--color-text);
+            font-weight: var(--font-weight-medium);
+            font-size: var(--font-size-base);
+        }
+
+        /* Tooltip */
+        .tooltip {
+            position: relative;
+            cursor: help;
+        }
+
+        .tooltip-text {
+            visibility: hidden;
+            background: var(--color-charcoal-800);
+            color: var(--color-white);
+            text-align: center;
+            border-radius: var(--radius-base);
+            padding: var(--space-8) var(--space-12);
+            position: absolute;
+            z-index: 1000;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -80px;
+            width: 160px;
+            font-size: var(--font-size-sm);
+            opacity: 0;
+            transition: opacity var(--duration-fast) var(--ease-standard);
+        }
+
+        .tooltip-text::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: var(--color-charcoal-800) transparent transparent transparent;
+        }
+
+        .tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Filter Panel Styles */
+        .filter-panel {
+            background: var(--color-surface);
+            border: 1px solid var(--color-card-border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-24);
+            margin-bottom: var(--space-32);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .filter-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-20);
+        }
+
+        .filter-title {
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-text);
+            margin: 0;
+        }
+
+        .filter-badge {
+            background: var(--color-primary);
+            color: var(--color-btn-primary-text);
+            padding: var(--space-4) var(--space-12);
+            border-radius: var(--radius-full);
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-medium);
+        }
+
+        .filter-controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr auto;
+            gap: var(--space-20);
+            align-items: end;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .filter-label {
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-medium);
+            color: var(--color-text-secondary);
+            margin-bottom: var(--space-8);
+        }
+
+        .filter-select {
+            min-width: 160px;
+        }
+
+        .reset-btn {
+            height: fit-content;
+            white-space: nowrap;
+        }
+
+        /* Tabs Styles */
+        .tabs-container {
+            background: var(--color-surface);
+            border: 1px solid var(--color-card-border);
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--space-32);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .tabs-header {
+            display: flex;
+            border-bottom: 1px solid var(--color-border);
+            background: var(--color-secondary);
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: var(--space-16) var(--space-24);
+            background: none;
+            border: none;
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-medium);
+            color: var(--color-text-secondary);
+            cursor: pointer;
+            transition: all var(--duration-fast) var(--ease-standard);
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+        }
+
+        .tab-button.active {
+            background: var(--color-surface);
+            color: var(--color-text);
+            border-bottom: 2px solid var(--color-primary);
+        }
+
+        .tab-button:hover {
+            background: var(--color-secondary-hover);
+        }
+
+        .tab-button.active:hover {
+            background: var(--color-surface);
+        }
+
+        .tab-content {
+            padding: var(--space-24);
+        }
+
+        .tab-pane {
+            display: none;
+        }
+
+        .tab-pane.active {
+            display: block;
+        }
+
+        .breakdown-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .breakdown-table th {
+            background: var(--color-secondary);
+            padding: var(--space-12) var(--space-16);
+            text-align: left;
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-text);
+            border-bottom: 1px solid var(--color-border);
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .breakdown-table th:hover {
+            background: var(--color-secondary-hover);
+        }
+
+        .breakdown-table td {
+            padding: var(--space-12) var(--space-16);
+            border-bottom: 1px solid var(--color-border);
+            text-align: center;
+        }
+
+        .breakdown-table td:first-child {
+            text-align: left;
+            font-weight: var(--font-weight-medium);
+        }
+
+        .status-count {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 40px;
+            height: 28px;
+            border-radius: var(--radius-base);
+            font-weight: var(--font-weight-medium);
+            font-size: var(--font-size-sm);
+        }
+
+        .status-count.draft-ready {
+            background: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        .status-count.review-ongoing {
+            background: rgba(245, 158, 11, 0.1);
+            color: #f59e0b;
+            border: 1px solid rgba(245, 158, 11, 0.2);
+        }
+
+        .status-count.review-completed {
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .filter-summary {
+            background: var(--color-bg-1);
+            padding: var(--space-16);
+            border-radius: var(--radius-base);
+            margin-bottom: var(--space-24);
+            text-align: center;
+        }
+
+        .filter-summary-text {
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-base);
+        }
+
+        /* Data Source Configuration Panel */
+        .data-source-panel {
+            background: var(--color-bg-1);
+            border: 2px solid var(--color-primary);
+            border-radius: var(--radius-lg);
+            padding: var(--space-24);
+            margin-bottom: var(--space-32);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .config-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-20);
+        }
+
+        .config-title {
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-text);
+            margin: 0;
+        }
+
+        .connection-status {
+            display: flex;
+            align-items: center;
+            gap: var(--space-8);
+            font-weight: var(--font-weight-medium);
+            font-size: var(--font-size-sm);
+        }
+
+        .status-indicator {
+            font-size: var(--font-size-lg);
+            transition: color var(--duration-fast) var(--ease-standard);
+        }
+
+        .status-indicator.connected {
+            color: var(--color-success);
+        }
+
+        .status-indicator.disconnected {
+            color: var(--color-error);
+        }
+
+        .status-indicator.loading {
+            color: var(--color-warning);
+            animation: pulse 1.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes pulse {
+            from { opacity: 1; }
+            to { opacity: 0.4; }
+        }
+
+        .config-controls {
+            margin-bottom: var(--space-20);
+        }
+
+        .url-input-group {
+            margin-bottom: var(--space-16);
+        }
+
+        .config-label {
+            display: block;
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-medium);
+            color: var(--color-text);
+            margin-bottom: var(--space-8);
+        }
+
+        .config-input {
+            width: 100%;
+            font-family: var(--font-family-mono);
+            font-size: var(--font-size-sm);
+        }
+
+        .config-buttons {
+            display: flex;
+            gap: var(--space-12);
+            flex-wrap: wrap;
+        }
+
+        .config-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--space-12) var(--space-16);
+            background: var(--color-surface);
+            border-radius: var(--radius-base);
+            margin-bottom: var(--space-16);
+            font-size: var(--font-size-sm);
+        }
+
+        .last-updated-info {
+            display: flex;
+            gap: var(--space-16);
+            align-items: center;
+        }
+
+        .countdown {
+            color: var(--color-text-secondary);
+            font-style: italic;
+        }
+
+        .data-quality {
+            font-weight: var(--font-weight-medium);
+        }
+
+        .connection-instructions {
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-base);
+            overflow: hidden;
+        }
+
+        .connection-instructions summary {
+            padding: var(--space-12) var(--space-16);
+            background: var(--color-surface);
+            cursor: pointer;
+            font-weight: var(--font-weight-medium);
+            font-size: var(--font-size-base);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .connection-instructions[open] summary {
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .instructions-content {
+            padding: var(--space-16);
+            background: var(--color-background);
+        }
+
+        .instructions-content ol {
+            margin: 0 0 var(--space-16) 0;
+            padding-left: var(--space-20);
+        }
+
+        .instructions-content li {
+            margin-bottom: var(--space-8);
+            line-height: var(--line-height-normal);
+        }
+
+        .requirements {
+            padding: var(--space-12);
+            background: var(--color-warning);
+            color: var(--color-background);
+            border-radius: var(--radius-base);
+            font-size: var(--font-size-sm);
+        }
+
+        .error-message {
+            background: rgba(var(--color-error-rgb), 0.1);
+            color: var(--color-error);
+            padding: var(--space-12) var(--space-16);
+            border-radius: var(--radius-base);
+            border: 1px solid rgba(var(--color-error-rgb), 0.2);
+            margin-top: var(--space-12);
+            font-size: var(--font-size-sm);
+        }
+
+        .success-message {
+            background: rgba(var(--color-success-rgb), 0.1);
+            color: var(--color-success);
+            padding: var(--space-12) var(--space-16);
+            border-radius: var(--radius-base);
+            border: 1px solid rgba(var(--color-success-rgb), 0.2);
+            margin-top: var(--space-12);
+            font-size: var(--font-size-sm);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .dashboard {
+                padding: var(--space-16);
+            }
+
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .progress-stats {
+                flex-direction: column;
+                gap: var(--space-16);
+            }
+
+            .header h1 {
+                font-size: var(--font-size-3xl);
+            }
+
+            .metric-value {
+                font-size: 2rem;
+            }
+
+            .progress-stat-value {
+                font-size: 1.5rem;
+            }
+
+            .filter-controls {
+                grid-template-columns: 1fr;
+                gap: var(--space-16);
+            }
+
+            .reset-btn {
+                margin-top: var(--space-16);
+            }
+
+            .tabs-header {
+                flex-direction: column;
+            }
+
+            .tab-button {
+                border-radius: 0;
+                border-bottom: 1px solid var(--color-border);
+            }
+
+            .breakdown-table {
+                font-size: var(--font-size-sm);
+            }
+
+            .breakdown-table th,
+            .breakdown-table td {
+                padding: var(--space-8) var(--space-12);
+            }
+
+            .config-buttons {
+                flex-direction: column;
+            }
+
+            .config-info {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: var(--space-8);
+            }
+
+            .last-updated-info {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: var(--space-4);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .dashboard {
+                padding: var(--space-12);
+            }
+
+            .metric-card {
+                padding: var(--space-16);
+            }
+
+            .progress-section {
+                padding: var(--space-20);
+            }
+
+            .metric-value {
+                font-size: 1.75rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div class="page">
-        <header class="site-header">
-            <div class="title-block">
-                <h1>RISE Materials Dashboard</h1>
-                <p class="subtitle">Live progress from the Google Sheets tracker</p>
-            </div>
-            <div class="controls">
-                <div class="timestamp">Last updated: <span id="lastUpdated">Never</span></div>
-                <button id="refreshButton" type="button">Refresh</button>
-            </div>
-        </header>
+    <div class="dashboard">
+        <div class="container">
+            <!-- Data Source Configuration Panel -->
+            <section class="data-source-panel">
+                <div class="config-header">
+                    <h3 class="config-title">📊 Data Source Configuration</h3>
+                    <div class="connection-status" id="connectionStatus">
+                        <span class="status-indicator disconnected" id="statusIndicator">●</span>
+                        <span id="statusText">Using Sample Data</span>
+                    </div>
+                </div>
+                
+                <div class="config-controls">
+                    <div class="url-input-group">
+                        <label class="config-label">Google Sheets Published CSV URL:</label>
+                        <input type="url" 
+                               class="form-control config-input" 
+                               id="sheetUrlInput" 
+                               placeholder="https://docs.google.com/spreadsheets/d/e/YOUR_SHEET_ID/pub?output=csv">
+                    </div>
+                    <div class="config-buttons">
+                        <button class="btn btn--primary" id="connectSheetBtn">Connect to Sheet</button>
+                        <button class="btn btn--outline" id="useSampleDataBtn">Use Sample Data</button>
+                        <button class="btn btn--outline" id="refreshDataBtn">Refresh Now</button>
+                        <button class="btn btn--outline" id="clearUrlBtn">Clear Saved URL</button>
+                    </div>
+                </div>
+                
+                <div class="config-info">
+                    <div class="last-updated-info">
+                        <span id="dataLastUpdated">Data last updated: Never</span>
+                        <span id="nextRefreshCountdown" class="countdown"></span>
+                    </div>
+                    <div class="data-quality" id="dataQuality">No data loaded</div>
+                </div>
+                
+                <details class="connection-instructions">
+                    <summary>📖 How to Connect Your Google Sheet</summary>
+                    <div class="instructions-content">
+                        <ol>
+                            <li>Open your Google Sheet with materials data</li>
+                            <li>Go to <strong>File → Share → Publish to web</strong></li>
+                            <li>Choose "Entire document" or select specific sheet</li>
+                            <li>Select <strong>"Comma-separated values (.csv)"</strong> format</li>
+                            <li>Click <strong>"Publish"</strong></li>
+                            <li>Copy the published URL (it should contain "pub?output=csv")</li>
+                            <li>Paste it in the field above and click "Connect to Sheet"</li>
+                        </ol>
+                        <div class="requirements">
+                            <strong>Required columns:</strong> Material_ID, Material Type, Language, Grade Level, Status
+                        </div>
+                    </div>
+                </details>
+            </section>
 
-        <section id="error-banner" class="error-banner" role="alert" hidden></section>
+            <!-- Header Section -->
+            <header class="header">
+                <h1>RISE Materials Development Dashboard</h1>
+                <div class="subtitle">The Gambia Early Grade Reading - Live Progress Tracking</div>
+                <div class="date-time" id="currentDateTime">Friday, October 24, 2025, 1:00 PM WAT</div>
+                <div class="date-time" id="lastUpdated" style="margin-top: var(--space-8);">Last updated: 30 seconds ago</div>
+            </header>
 
-        <main class="dashboard" role="main">
-            <div class="dashboard-card">
-                <section id="metrics" class="metrics" aria-live="polite"></section>
+            <!-- Filter Panel -->
+            <section class="filter-panel">
+                <div class="filter-header">
+                    <h3 class="filter-title">🔍 Filter Materials</h3>
+                    <div class="filter-badge" id="filterBadge">0 filters active</div>
+                </div>
+                <div class="filter-controls">
+                    <div class="filter-group">
+                        <label class="filter-label">🌐 Language</label>
+                        <select class="form-control filter-select" id="languageFilter">
+                            <option value="all">All Languages</option>
+                            <option value="Fula">Fula</option>
+                            <option value="Jola">Jola</option>
+                            <option value="Mandinka">Mandinka</option>
+                            <option value="Manjaku">Manjaku</option>
+                            <option value="Serahule">Serahule</option>
+                            <option value="Serer">Serer</option>
+                            <option value="Wolof">Wolof</option>
+                            <option value="English">English</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">📚 Grade Level</label>
+                        <select class="form-control filter-select" id="gradeFilter">
+                            <option value="all">All Grade Levels</option>
+                            <option value="ECE">ECE</option>
+                            <option value="Grade 1">Grade 1</option>
+                            <option value="Grade 2">Grade 2</option>
+                            <option value="Grade 3">Grade 3</option>
+                            <option value="Grade 4">Grade 4</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">📖 Material Type</label>
+                        <select class="form-control filter-select" id="materialTypeFilter">
+                            <option value="all">All Types</option>
+                            <option value="Decodable Reader">Decodable Reader</option>
+                            <option value="Leveled Reader">Leveled Reader</option>
+                            <option value="Teacher Guide">Teacher Guide</option>
+                        </select>
+                    </div>
+                    <button class="btn btn--outline reset-btn" id="resetFilters">Reset Filters</button>
+                </div>
+            </section>
 
-                <section id="status-table" class="status-breakdown" aria-live="polite">
-                    <h2>Status Breakdown</h2>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th scope="col">Status</th>
-                                <th scope="col">Count</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-                </section>
+            <!-- Key Metrics Cards -->
+            <section class="metrics-grid">
+                <div class="metric-card total tooltip" data-status="total">
+                    <div class="metric-header">
+                        <span class="metric-icon">📚</span>
+                        <span class="metric-label">Total Materials</span>
+                    </div>
+                    <div class="metric-value" id="totalCount">20</div>
+                    <div class="tooltip-text">Total number of materials in development</div>
+                </div>
+
+                <div class="metric-card draft-ready tooltip" data-status="1st Draft Ready">
+                    <div class="metric-header">
+                        <span class="metric-icon">📝</span>
+                        <span class="metric-label">1st Draft Ready</span>
+                    </div>
+                    <div class="metric-value" id="draftReadyCount">8</div>
+                    <div class="metric-percentage" id="draftReadyPercentage">40.0%</div>
+                    <div class="tooltip-text">Materials that have completed initial drafting</div>
+                </div>
+
+                <div class="metric-card review-ongoing tooltip" data-status="Internal Review Ongoing">
+                    <div class="metric-header">
+                        <span class="metric-icon">👀</span>
+                        <span class="metric-label">Internal Review Ongoing</span>
+                    </div>
+                    <div class="metric-value" id="reviewOngoingCount">7</div>
+                    <div class="metric-percentage" id="reviewOngoingPercentage">35.0%</div>
+                    <div class="tooltip-text">Materials currently under internal review</div>
+                </div>
+
+                <div class="metric-card review-completed tooltip" data-status="Internal Review Completed">
+                    <div class="metric-header">
+                        <span class="metric-icon">✅</span>
+                        <span class="metric-label">Internal Review Completed</span>
+                    </div>
+                    <div class="metric-value" id="reviewCompletedCount">5</div>
+                    <div class="metric-percentage" id="reviewCompletedPercentage">25.0%</div>
+                    <div class="tooltip-text">Materials that have passed internal review</div>
+                </div>
+            </section>
+
+            <!-- Progress Visualization -->
+            <section class="progress-section">
+                <div class="progress-header">
+                    <h2 class="progress-title">Development Progress Overview</h2>
+                    <div class="progress-stats">
+                        <div class="progress-stat">
+                            <div class="progress-stat-value" style="color: #3b82f6;" id="draftReadyProgress">40.0%</div>
+                            <div class="progress-stat-label">1st Draft Ready</div>
+                        </div>
+                        <div class="progress-stat">
+                            <div class="progress-stat-value" style="color: #f59e0b;" id="reviewOngoingProgress">35.0%</div>
+                            <div class="progress-stat-label">Review Ongoing</div>
+                        </div>
+                        <div class="progress-stat">
+                            <div class="progress-stat-value" style="color: #10b981;" id="reviewCompletedProgress">25.0%</div>
+                            <div class="progress-stat-label">Review Completed</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="progress-bar-container tooltip">
+                    <div class="progress-bar" id="progressBar">
+                        <div class="progress-segment draft-ready" style="width: 40%;"></div>
+                        <div class="progress-segment review-ongoing" style="width: 35%;"></div>
+                        <div class="progress-segment review-completed" style="width: 25%;"></div>
+                    </div>
+                    <div class="tooltip-text">Visual representation of materials development progress</div>
+                </div>
+            </section>
+
+            <!-- Filter Summary -->
+            <div class="filter-summary">
+                <div class="filter-summary-text" id="filterSummary">Showing 20 of 20 materials</div>
             </div>
-        </main>
+
+            <!-- Detailed Breakdown Tables -->
+            <section class="tabs-container">
+                <div class="tabs-header">
+                    <button class="tab-button active" data-tab="language">🌐 By Language</button>
+                    <button class="tab-button" data-tab="grade">📚 By Grade</button>
+                    <button class="tab-button" data-tab="material">📖 By Material Type</button>
+                </div>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="language-tab">
+                        <table class="breakdown-table">
+                            <thead>
+                                <tr>
+                                    <th>Language</th>
+                                    <th>1st Draft Ready</th>
+                                    <th>Internal Review Ongoing</th>
+                                    <th>Internal Review Completed</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody id="languageBreakdown"></tbody>
+                        </table>
+                    </div>
+                    <div class="tab-pane" id="grade-tab">
+                        <table class="breakdown-table">
+                            <thead>
+                                <tr>
+                                    <th>Grade Level</th>
+                                    <th>1st Draft Ready</th>
+                                    <th>Internal Review Ongoing</th>
+                                    <th>Internal Review Completed</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody id="gradeBreakdown"></tbody>
+                        </table>
+                    </div>
+                    <div class="tab-pane" id="material-tab">
+                        <table class="breakdown-table">
+                            <thead>
+                                <tr>
+                                    <th>Material Type</th>
+                                    <th>1st Draft Ready</th>
+                                    <th>Internal Review Ongoing</th>
+                                    <th>Internal Review Completed</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody id="materialBreakdown"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </div>
     </div>
 
-    <script src="app.js"></script>
+    <script>
+        // Sample materials data
+        const materialsData = [
+            { material_id: "M001", language: "Fula", grade: "ECE", material_type: "Decodable Reader", status: "1st Draft Ready" },
+            { material_id: "M002", language: "Fula", grade: "Grade 1", material_type: "Decodable Reader", status: "1st Draft Ready" },
+            { material_id: "M003", language: "Mandinka", grade: "ECE", material_type: "Leveled Reader", status: "Internal Review Ongoing" },
+            { material_id: "M004", language: "Mandinka", grade: "Grade 1", material_type: "Decodable Reader", status: "1st Draft Ready" },
+            { material_id: "M005", language: "Wolof", grade: "Grade 2", material_type: "Leveled Reader", status: "Internal Review Completed" },
+            { material_id: "M006", language: "Wolof", grade: "Grade 3", material_type: "Teacher Guide", status: "Internal Review Ongoing" },
+            { material_id: "M007", language: "Jola", grade: "ECE", material_type: "Decodable Reader", status: "1st Draft Ready" },
+            { material_id: "M008", language: "Jola", grade: "Grade 1", material_type: "Leveled Reader", status: "Internal Review Ongoing" },
+            { material_id: "M009", language: "English", grade: "Grade 2", material_type: "Teacher Guide", status: "Internal Review Completed" },
+            { material_id: "M010", language: "English", grade: "Grade 3", material_type: "Decodable Reader", status: "1st Draft Ready" },
+            { material_id: "M011", language: "Serahule", grade: "ECE", material_type: "Leveled Reader", status: "Internal Review Ongoing" },
+            { material_id: "M012", language: "Serahule", grade: "Grade 1", material_type: "Teacher Guide", status: "1st Draft Ready" },
+            { material_id: "M013", language: "Manjaku", grade: "Grade 2", material_type: "Decodable Reader", status: "Internal Review Completed" },
+            { material_id: "M014", language: "Manjaku", grade: "Grade 3", material_type: "Leveled Reader", status: "Internal Review Ongoing" },
+            { material_id: "M015", language: "Serer", grade: "ECE", material_type: "Teacher Guide", status: "1st Draft Ready" },
+            { material_id: "M016", language: "Serer", grade: "Grade 1", material_type: "Decodable Reader", status: "Internal Review Completed" },
+            { material_id: "M017", language: "Fula", grade: "Grade 2", material_type: "Leveled Reader", status: "Internal Review Ongoing" },
+            { material_id: "M018", language: "Mandinka", grade: "Grade 3", material_type: "Teacher Guide", status: "1st Draft Ready" },
+            { material_id: "M019", language: "Wolof", grade: "Grade 4", material_type: "Decodable Reader", status: "Internal Review Completed" },
+            { material_id: "M020", language: "English", grade: "ECE", material_type: "Leveled Reader", status: "Internal Review Ongoing" }
+        ];
+
+        // Global variables for filters and data management
+        let currentFilters = {
+            language: 'all',
+            grade: 'all',
+            materialType: 'all'
+        };
+
+        let filteredData = [...materialsData];
+        let highlightedStatus = null;
+        let isUsingLiveData = false;
+        let autoRefreshTimer = null;
+        let countdownTimer = null;
+        let nextRefreshTime = null;
+        let savedSheetUrl = ''; // In-memory storage for sheet URL
+        const REFRESH_INTERVAL = 5 * 60 * 1000; // 5 minutes in milliseconds
+
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeEventListeners();
+            loadSavedConfiguration();
+            updateDashboard();
+            initializeAnimations();
+            updateLastUpdated();
+        });
+
+        function initializeEventListeners() {
+            // Filter change events
+            document.getElementById('languageFilter').addEventListener('change', handleFilterChange);
+            document.getElementById('gradeFilter').addEventListener('change', handleFilterChange);
+            document.getElementById('materialTypeFilter').addEventListener('change', handleFilterChange);
+            document.getElementById('resetFilters').addEventListener('click', resetFilters);
+
+            // Tab switching
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.addEventListener('click', (e) => switchTab(e.target.dataset.tab));
+            });
+
+            // Metric card clicks for highlighting
+            document.querySelectorAll('.metric-card[data-status]').forEach(card => {
+                card.addEventListener('click', (e) => {
+                    const status = e.currentTarget.dataset.status;
+                    toggleStatusHighlight(status);
+                });
+            });
+
+            // Data source configuration events
+            document.getElementById('connectSheetBtn').addEventListener('click', connectToGoogleSheet);
+            document.getElementById('useSampleDataBtn').addEventListener('click', useSampleData);
+            document.getElementById('refreshDataBtn').addEventListener('click', refreshData);
+            document.getElementById('clearUrlBtn').addEventListener('click', clearSavedUrl);
+        }
+
+        function handleFilterChange() {
+            currentFilters.language = document.getElementById('languageFilter').value;
+            currentFilters.grade = document.getElementById('gradeFilter').value;
+            currentFilters.materialType = document.getElementById('materialTypeFilter').value;
+            
+            applyFilters();
+            updateDashboard();
+            updateFilterBadge();
+        }
+
+        function applyFilters() {
+            filteredData = materialsData.filter(material => {
+                const languageMatch = currentFilters.language === 'all' || material.language === currentFilters.language;
+                const gradeMatch = currentFilters.grade === 'all' || material.grade === currentFilters.grade;
+                const materialTypeMatch = currentFilters.materialType === 'all' || material.material_type === currentFilters.materialType;
+                
+                return languageMatch && gradeMatch && materialTypeMatch;
+            });
+        }
+
+        function resetFilters() {
+            document.getElementById('languageFilter').value = 'all';
+            document.getElementById('gradeFilter').value = 'all';
+            document.getElementById('materialTypeFilter').value = 'all';
+            
+            currentFilters = { language: 'all', grade: 'all', materialType: 'all' };
+            filteredData = [...materialsData];
+            highlightedStatus = null;
+            
+            // Remove highlight from metric cards
+            document.querySelectorAll('.metric-card').forEach(card => {
+                card.classList.remove('highlighted');
+            });
+            
+            updateDashboard();
+            updateFilterBadge();
+        }
+
+        function updateFilterBadge() {
+            const activeFilters = Object.values(currentFilters).filter(value => value !== 'all').length;
+            const badge = document.getElementById('filterBadge');
+            badge.textContent = activeFilters === 0 ? '0 filters active' : `${activeFilters} filter${activeFilters > 1 ? 's' : ''} active`;
+        }
+
+        function toggleStatusHighlight(status) {
+            const cards = document.querySelectorAll('.metric-card');
+            
+            if (highlightedStatus === status) {
+                // Remove highlight
+                highlightedStatus = null;
+                cards.forEach(card => card.classList.remove('highlighted'));
+            } else {
+                // Add highlight
+                highlightedStatus = status;
+                cards.forEach(card => {
+                    card.classList.remove('highlighted');
+                    if (card.dataset.status === status) {
+                        card.classList.add('highlighted');
+                    }
+                });
+            }
+        }
+
+        function updateDashboard() {
+            const displayData = highlightedStatus ? 
+                filteredData.filter(material => material.status === highlightedStatus) : 
+                filteredData;
+                
+            updateMetrics(displayData);
+            updateProgressVisualization(displayData);
+            updateBreakdownTables(displayData);
+            updateFilterSummary();
+        }
+
+        function updateMetrics(data) {
+            const total = data.length;
+            const draftReady = data.filter(m => m.status === '1st Draft Ready').length;
+            const reviewOngoing = data.filter(m => m.status === 'Internal Review Ongoing').length;
+            const reviewCompleted = data.filter(m => m.status === 'Internal Review Completed').length;
+
+            document.getElementById('totalCount').textContent = total;
+            document.getElementById('draftReadyCount').textContent = draftReady;
+            document.getElementById('reviewOngoingCount').textContent = reviewOngoing;
+            document.getElementById('reviewCompletedCount').textContent = reviewCompleted;
+
+            // Update percentages
+            const draftReadyPercent = total > 0 ? ((draftReady / total) * 100).toFixed(1) : '0.0';
+            const reviewOngoingPercent = total > 0 ? ((reviewOngoing / total) * 100).toFixed(1) : '0.0';
+            const reviewCompletedPercent = total > 0 ? ((reviewCompleted / total) * 100).toFixed(1) : '0.0';
+
+            document.getElementById('draftReadyPercentage').textContent = draftReadyPercent + '%';
+            document.getElementById('reviewOngoingPercentage').textContent = reviewOngoingPercent + '%';
+            document.getElementById('reviewCompletedPercentage').textContent = reviewCompletedPercent + '%';
+
+            // Update progress stats
+            document.getElementById('draftReadyProgress').textContent = draftReadyPercent + '%';
+            document.getElementById('reviewOngoingProgress').textContent = reviewOngoingPercent + '%';
+            document.getElementById('reviewCompletedProgress').textContent = reviewCompletedPercent + '%';
+        }
+
+        function updateProgressVisualization(data) {
+            const total = data.length;
+            if (total === 0) {
+                document.querySelectorAll('.progress-segment').forEach(segment => {
+                    segment.style.width = '0%';
+                });
+                return;
+            }
+
+            const draftReady = data.filter(m => m.status === '1st Draft Ready').length;
+            const reviewOngoing = data.filter(m => m.status === 'Internal Review Ongoing').length;
+            const reviewCompleted = data.filter(m => m.status === 'Internal Review Completed').length;
+
+            const draftReadyPercent = (draftReady / total) * 100;
+            const reviewOngoingPercent = (reviewOngoing / total) * 100;
+            const reviewCompletedPercent = (reviewCompleted / total) * 100;
+
+            document.querySelector('.progress-segment.draft-ready').style.width = draftReadyPercent + '%';
+            document.querySelector('.progress-segment.review-ongoing').style.width = reviewOngoingPercent + '%';
+            document.querySelector('.progress-segment.review-completed').style.width = reviewCompletedPercent + '%';
+        }
+
+        function updateBreakdownTables(data) {
+            updateLanguageBreakdown(data);
+            updateGradeBreakdown(data);
+            updateMaterialBreakdown(data);
+        }
+
+        function updateLanguageBreakdown(data) {
+            const languages = ['Fula', 'Jola', 'Mandinka', 'Manjaku', 'Serahule', 'Serer', 'Wolof', 'English'];
+            const tbody = document.getElementById('languageBreakdown');
+            tbody.innerHTML = '';
+
+            languages.forEach(language => {
+                const languageData = data.filter(m => m.language === language);
+                if (languageData.length > 0) {
+                    const row = createBreakdownRow(
+                        language, 
+                        languageData.filter(m => m.status === '1st Draft Ready').length,
+                        languageData.filter(m => m.status === 'Internal Review Ongoing').length,
+                        languageData.filter(m => m.status === 'Internal Review Completed').length,
+                        languageData.length
+                    );
+                    tbody.appendChild(row);
+                }
+            });
+        }
+
+        function updateGradeBreakdown(data) {
+            const grades = ['ECE', 'Grade 1', 'Grade 2', 'Grade 3', 'Grade 4'];
+            const tbody = document.getElementById('gradeBreakdown');
+            tbody.innerHTML = '';
+
+            grades.forEach(grade => {
+                const gradeData = data.filter(m => m.grade === grade);
+                if (gradeData.length > 0) {
+                    const row = createBreakdownRow(
+                        grade,
+                        gradeData.filter(m => m.status === '1st Draft Ready').length,
+                        gradeData.filter(m => m.status === 'Internal Review Ongoing').length,
+                        gradeData.filter(m => m.status === 'Internal Review Completed').length,
+                        gradeData.length
+                    );
+                    tbody.appendChild(row);
+                }
+            });
+        }
+
+        function updateMaterialBreakdown(data) {
+            const materialTypes = ['Decodable Reader', 'Leveled Reader', 'Teacher Guide'];
+            const tbody = document.getElementById('materialBreakdown');
+            tbody.innerHTML = '';
+
+            materialTypes.forEach(materialType => {
+                const materialData = data.filter(m => m.material_type === materialType);
+                if (materialData.length > 0) {
+                    const row = createBreakdownRow(
+                        materialType,
+                        materialData.filter(m => m.status === '1st Draft Ready').length,
+                        materialData.filter(m => m.status === 'Internal Review Ongoing').length,
+                        materialData.filter(m => m.status === 'Internal Review Completed').length,
+                        materialData.length
+                    );
+                    tbody.appendChild(row);
+                }
+            });
+        }
+
+        function createBreakdownRow(category, draftReady, reviewOngoing, reviewCompleted, total) {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td><strong>${category}</strong></td>
+                <td><span class="status-count draft-ready">${draftReady}</span></td>
+                <td><span class="status-count review-ongoing">${reviewOngoing}</span></td>
+                <td><span class="status-count review-completed">${reviewCompleted}</span></td>
+                <td><strong>${total}</strong></td>
+            `;
+            return row;
+        }
+
+        function updateFilterSummary() {
+            const total = materialsData.length;
+            const filtered = filteredData.length;
+            const summaryText = filtered === total ? 
+                `Showing all ${total} materials` : 
+                `Showing ${filtered} of ${total} materials`;
+            document.getElementById('filterSummary').textContent = summaryText;
+        }
+
+        function switchTab(tabName) {
+            // Update tab buttons
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('active');
+            });
+            document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+
+            // Update tab panes
+            document.querySelectorAll('.tab-pane').forEach(pane => {
+                pane.classList.remove('active');
+            });
+            document.getElementById(`${tabName}-tab`).classList.add('active');
+        }
+
+        function updateLastUpdated() {
+            const now = new Date();
+            const seconds = Math.floor((now.getTime() / 1000) % 60);
+            let updateText;
+            
+            if (seconds < 30) {
+                updateText = 'Last updated: just now';
+            } else if (seconds < 60) {
+                updateText = `Last updated: ${seconds} seconds ago`;
+            } else {
+                updateText = 'Last updated: 1 minute ago';
+            }
+            
+            document.getElementById('lastUpdated').textContent = updateText;
+        }
+
+        function initializeAnimations() {
+            const metricCards = document.querySelectorAll('.metric-card');
+            
+            metricCards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(20px)';
+                    card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                    
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, 100);
+                }, index * 150);
+            });
+
+            // Animate progress bar
+            setTimeout(() => {
+                const progressSegments = document.querySelectorAll('.progress-segment');
+                progressSegments.forEach(segment => {
+                    segment.style.transition = 'width 1.5s ease-in-out';
+                });
+            }, 800);
+        }
+
+        // CSS for highlighted metric cards
+        const style = document.createElement('style');
+        style.textContent = `
+            .metric-card.highlighted {
+                transform: translateY(-4px) scale(1.03) !important;
+                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1), 0 0 0 3px var(--color-primary) !important;
+                z-index: 10;
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Update last updated time every 30 seconds
+        setInterval(updateLastUpdated, 30000);
+
+        // LIVE GOOGLE SHEETS INTEGRATION FUNCTIONS
+
+        async function connectToGoogleSheet() {
+            const url = document.getElementById('sheetUrlInput').value.trim();
+            
+            if (!url) {
+                showMessage('Please enter a Google Sheets CSV URL', 'error');
+                return;
+            }
+
+            if (!isValidGoogleSheetsUrl(url)) {
+                showMessage('Please enter a valid Google Sheets published CSV URL', 'error');
+                return;
+            }
+
+            setConnectionStatus('loading', 'Connecting...');
+            
+            try {
+                const data = await fetchGoogleSheetCSV(url);
+                
+                if (data && data.length > 0) {
+                    // Save URL to in-memory storage
+                    savedSheetUrl = url;
+                    
+                    // Update global data
+                    materialsData.length = 0;
+                    materialsData.push(...data);
+                    filteredData = [...materialsData];
+                    isUsingLiveData = true;
+                    
+                    // Update UI
+                    setConnectionStatus('connected', `Connected (${data.length} materials loaded)`);
+                    updateDataQuality(data);
+                    updateDataLastUpdated();
+                    updateDashboard();
+                    
+                    // Start auto-refresh
+                    startAutoRefresh();
+                    
+                    showMessage(`Successfully connected! Loaded ${data.length} materials.`, 'success');
+                } else {
+                    throw new Error('No valid data found in the sheet');
+                }
+            } catch (error) {
+                console.error('Error connecting to Google Sheet:', error);
+                setConnectionStatus('disconnected', 'Connection Failed');
+                showMessage(`Connection failed: ${error.message}`, 'error');
+            }
+        }
+
+        async function fetchGoogleSheetCSV(url) {
+            const response = await fetch(url);
+            
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+            }
+            
+            const csvText = await response.text();
+            return parseCSV(csvText);
+        }
+
+        function parseCSV(csvText) {
+            const lines = csvText.trim().split('\n');
+            
+            if (lines.length < 2) {
+                throw new Error('CSV must have at least a header row and one data row');
+            }
+            
+            // Parse header
+            const headers = parseCSVRow(lines[0]);
+            
+            // Validate required columns
+            const requiredColumns = ['Material_ID', 'Material Type', 'Language', 'Grade Level', 'Status'];
+            const missingColumns = requiredColumns.filter(col => !headers.includes(col));
+            
+            if (missingColumns.length > 0) {
+                throw new Error(`Missing required columns: ${missingColumns.join(', ')}`);
+            }
+            
+            // Parse data rows
+            const materials = [];
+            for (let i = 1; i < lines.length; i++) {
+                const row = parseCSVRow(lines[i]);
+                
+                if (row.length >= requiredColumns.length && row[0]) { // Skip empty rows
+                    const material = {
+                        material_id: row[headers.indexOf('Material_ID')] || '',
+                        language: row[headers.indexOf('Language')] || '',
+                        grade: row[headers.indexOf('Grade Level')] || '',
+                        material_type: row[headers.indexOf('Material Type')] || '',
+                        status: row[headers.indexOf('Status')] || ''
+                    };
+                    
+                    // Validate status
+                    const validStatuses = ['1st Draft Ready', 'Internal Review Ongoing', 'Internal Review Completed'];
+                    if (validStatuses.includes(material.status)) {
+                        materials.push(material);
+                    }
+                }
+            }
+            
+            if (materials.length === 0) {
+                throw new Error('No valid materials found in the sheet');
+            }
+            
+            return materials;
+        }
+
+        function parseCSVRow(row) {
+            const result = [];
+            let current = '';
+            let inQuotes = false;
+            
+            for (let i = 0; i < row.length; i++) {
+                const char = row[i];
+                
+                if (char === '"') {
+                    inQuotes = !inQuotes;
+                } else if (char === ',' && !inQuotes) {
+                    result.push(current.trim());
+                    current = '';
+                } else {
+                    current += char;
+                }
+            }
+            
+            result.push(current.trim());
+            return result;
+        }
+
+        function isValidGoogleSheetsUrl(url) {
+            return url.includes('docs.google.com/spreadsheets') && url.includes('pub?output=csv');
+        }
+
+        function useSampleData() {
+            // Stop auto-refresh
+            stopAutoRefresh();
+            
+            // Reset to sample data
+            materialsData.length = 0;
+            materialsData.push(
+                { material_id: "M001", language: "Fula", grade: "ECE", material_type: "Decodable Reader", status: "1st Draft Ready" },
+                { material_id: "M002", language: "Fula", grade: "Grade 1", material_type: "Decodable Reader", status: "1st Draft Ready" },
+                { material_id: "M003", language: "Mandinka", grade: "ECE", material_type: "Leveled Reader", status: "Internal Review Ongoing" },
+                { material_id: "M004", language: "Mandinka", grade: "Grade 1", material_type: "Decodable Reader", status: "1st Draft Ready" },
+                { material_id: "M005", language: "Wolof", grade: "Grade 2", material_type: "Leveled Reader", status: "Internal Review Completed" },
+                { material_id: "M006", language: "Wolof", grade: "Grade 3", material_type: "Teacher Guide", status: "Internal Review Ongoing" },
+                { material_id: "M007", language: "Jola", grade: "ECE", material_type: "Decodable Reader", status: "1st Draft Ready" },
+                { material_id: "M008", language: "Jola", grade: "Grade 1", material_type: "Leveled Reader", status: "Internal Review Ongoing" },
+                { material_id: "M009", language: "English", grade: "Grade 2", material_type: "Teacher Guide", status: "Internal Review Completed" },
+                { material_id: "M010", language: "English", grade: "Grade 3", material_type: "Decodable Reader", status: "1st Draft Ready" },
+                { material_id: "M011", language: "Serahule", grade: "ECE", material_type: "Leveled Reader", status: "Internal Review Ongoing" },
+                { material_id: "M012", language: "Serahule", grade: "Grade 1", material_type: "Teacher Guide", status: "1st Draft Ready" },
+                { material_id: "M013", language: "Manjaku", grade: "Grade 2", material_type: "Decodable Reader", status: "Internal Review Completed" },
+                { material_id: "M014", language: "Manjaku", grade: "Grade 3", material_type: "Leveled Reader", status: "Internal Review Ongoing" },
+                { material_id: "M015", language: "Serer", grade: "ECE", material_type: "Teacher Guide", status: "1st Draft Ready" },
+                { material_id: "M016", language: "Serer", grade: "Grade 1", material_type: "Decodable Reader", status: "Internal Review Completed" },
+                { material_id: "M017", language: "Fula", grade: "Grade 2", material_type: "Leveled Reader", status: "Internal Review Ongoing" },
+                { material_id: "M018", language: "Mandinka", grade: "Grade 3", material_type: "Teacher Guide", status: "1st Draft Ready" },
+                { material_id: "M019", language: "Wolof", grade: "Grade 4", material_type: "Decodable Reader", status: "Internal Review Completed" },
+                { material_id: "M020", language: "English", grade: "ECE", material_type: "Leveled Reader", status: "Internal Review Ongoing" }
+            );
+            
+            filteredData = [...materialsData];
+            isUsingLiveData = false;
+            
+            setConnectionStatus('disconnected', 'Using Sample Data');
+            updateDataQuality(materialsData);
+            document.getElementById('dataLastUpdated').textContent = 'Data last updated: Using sample data';
+            updateDashboard();
+            
+            showMessage('Switched to sample data', 'success');
+        }
+
+        async function refreshData() {
+            if (!isUsingLiveData) {
+                showMessage('Not connected to live data. Use sample data or connect to a Google Sheet.', 'error');
+                return;
+            }
+            
+            const url = document.getElementById('sheetUrlInput').value.trim();
+            if (!url) {
+                showMessage('No Google Sheets URL configured', 'error');
+                return;
+            }
+            
+            setConnectionStatus('loading', 'Refreshing...');
+            
+            try {
+                const data = await fetchGoogleSheetCSV(url);
+                
+                // Update global data
+                materialsData.length = 0;
+                materialsData.push(...data);
+                filteredData = [...materialsData];
+                
+                setConnectionStatus('connected', `Connected (${data.length} materials loaded)`);
+                updateDataQuality(data);
+                updateDataLastUpdated();
+                updateDashboard();
+                
+                // Reset auto-refresh timer
+                startAutoRefresh();
+                
+                showMessage('Data refreshed successfully', 'success');
+            } catch (error) {
+                console.error('Error refreshing data:', error);
+                setConnectionStatus('disconnected', 'Refresh Failed');
+                showMessage(`Refresh failed: ${error.message}`, 'error');
+            }
+        }
+
+        function clearSavedUrl() {
+            // Clear in-memory storage
+            savedSheetUrl = '';
+            document.getElementById('sheetUrlInput').value = '';
+            showMessage('Saved URL cleared', 'success');
+        }
+
+        function loadSavedConfiguration() {
+            // Load from in-memory storage
+            if (savedSheetUrl) {
+                document.getElementById('sheetUrlInput').value = savedSheetUrl;
+            }
+        }
+
+        function setConnectionStatus(status, text) {
+            const indicator = document.getElementById('statusIndicator');
+            const statusText = document.getElementById('statusText');
+            
+            indicator.className = `status-indicator ${status}`;
+            statusText.textContent = text;
+        }
+
+        function updateDataQuality(data) {
+            const qualityElement = document.getElementById('dataQuality');
+            qualityElement.textContent = `${data.length} materials loaded, 0 errors`;
+        }
+
+        function updateDataLastUpdated() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString();
+            document.getElementById('dataLastUpdated').textContent = `Data last updated: ${timeString}`;
+        }
+
+        function startAutoRefresh() {
+            stopAutoRefresh(); // Clear any existing timer
+            
+            nextRefreshTime = Date.now() + REFRESH_INTERVAL;
+            
+            autoRefreshTimer = setTimeout(() => {
+                if (isUsingLiveData) {
+                    refreshData();
+                }
+            }, REFRESH_INTERVAL);
+            
+            // Start countdown display
+            updateCountdown();
+            countdownTimer = setInterval(updateCountdown, 1000);
+        }
+
+        function stopAutoRefresh() {
+            if (autoRefreshTimer) {
+                clearTimeout(autoRefreshTimer);
+                autoRefreshTimer = null;
+            }
+            
+            if (countdownTimer) {
+                clearInterval(countdownTimer);
+                countdownTimer = null;
+            }
+            
+            document.getElementById('nextRefreshCountdown').textContent = '';
+        }
+
+        function updateCountdown() {
+            if (!nextRefreshTime) return;
+            
+            const remaining = Math.max(0, nextRefreshTime - Date.now());
+            const minutes = Math.floor(remaining / 60000);
+            const seconds = Math.floor((remaining % 60000) / 1000);
+            
+            if (remaining > 0) {
+                document.getElementById('nextRefreshCountdown').textContent = 
+                    `Next refresh in ${minutes}:${seconds.toString().padStart(2, '0')}`;
+            } else {
+                document.getElementById('nextRefreshCountdown').textContent = '';
+            }
+        }
+
+        function showMessage(message, type) {
+            // Remove any existing messages
+            const existingMessage = document.querySelector('.error-message, .success-message');
+            if (existingMessage) {
+                existingMessage.remove();
+            }
+            
+            const messageDiv = document.createElement('div');
+            messageDiv.className = type === 'error' ? 'error-message' : 'success-message';
+            messageDiv.textContent = message;
+            
+            const configControls = document.querySelector('.config-controls');
+            configControls.appendChild(messageDiv);
+            
+            // Auto-remove after 5 seconds
+            setTimeout(() => {
+                if (messageDiv.parentNode) {
+                    messageDiv.remove();
+                }
+            }, 5000);
+        }
+
+        /*
+        === LINKING TO LIVE GOOGLE SHEETS DATA ===
+        
+        To connect this dashboard to live Google Sheets data, you have several options:
+        
+        1. GOOGLE SHEETS API (Recommended for production):
+           - Set up Google Sheets API credentials in Google Cloud Console
+           - Use the sheets.values.get() method to fetch data
+           - Replace the materialsData array with API calls
+           - Example implementation:
+           
+           async function fetchMaterialsData() {
+               const SHEET_ID = 'your-google-sheet-id';
+               const API_KEY = 'your-api-key';
+               const RANGE = 'Sheet1!A1:E1000';
+               
+               const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${RANGE}?key=${API_KEY}`;
+               
+               try {
+                   const response = await fetch(url);
+                   const data = await response.json();
+                   const rows = data.values;
+                   
+                   // Convert rows to objects (skip header row)
+                   const materials = rows.slice(1).map(row => ({
+                       material_id: row[0],
+                       language: row[1],
+                       grade: row[2],
+                       material_type: row[3],
+                       status: row[4]
+                   }));
+                   
+                   return materials;
+               } catch (error) {
+                   console.error('Error fetching data:', error);
+                   return [];
+               }
+           }
+           
+        2. GOOGLE APPS SCRIPT WEB APP:
+           - Create a Google Apps Script that publishes sheet data as JSON
+           - Fetch data using simple HTTP requests
+           - More control over data processing and security
+           
+        3. CSV EXPORT WITH AUTOMATION:
+           - Set up automated CSV exports from Google Sheets
+           - Host CSV files on a web server
+           - Parse CSV data in the dashboard
+           
+        4. GOOGLE SHEETS PUBLISHED WEB VERSION:
+           - Publish Google Sheet as CSV
+           - Fetch using CORS-enabled requests
+           - Simpler but less secure option
+           
+        IMPLEMENTATION STEPS:
+        1. Replace the materialsData array initialization
+        2. Call fetchMaterialsData() on page load
+        3. Set up periodic refresh (every 5-10 minutes)
+        4. Add error handling for connection failures
+        5. Show loading states during data fetch
+        6. Cache data locally for offline functionality
+        
+        GOOGLE SHEETS DATA FORMAT:
+        Ensure your Google Sheet has columns in this order:
+        A: Material_ID (e.g., M001, M002, etc.)
+        B: Language (Fula, Mandinka, Wolof, etc.)
+        C: Grade (ECE, Grade 1, Grade 2, etc.)
+        D: Material_Type (Decodable Reader, Leveled Reader, Teacher Guide)
+        E: Status (1st Draft Ready, Internal Review Ongoing, Internal Review Completed)
+        
+        The dashboard will automatically update all metrics, charts, and tables
+        when new data is loaded from Google Sheets.
+        */
+    </script>
 </body>
 </html>
