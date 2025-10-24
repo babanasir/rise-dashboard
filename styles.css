@@ -1,0 +1,207 @@
+:root {
+    color-scheme: light;
+    font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background-color: #f4f6f8;
+    color: #1f2933;
+}
+
+body {
+    margin: 0;
+    padding: 0 1.5rem 3rem;
+    background-color: #f4f6f8;
+}
+
+.site-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.5rem 0;
+}
+
+.title-block h1 {
+    margin: 0;
+    font-size: 1.75rem;
+}
+
+.subtitle {
+    margin: 0.25rem 0 0;
+    color: #52606d;
+}
+
+.controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-weight: 500;
+}
+
+#refreshButton {
+    padding: 0.6rem 1.25rem;
+    border: none;
+    border-radius: 0.5rem;
+    background-color: #155e75;
+    color: white;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+#refreshButton[disabled] {
+    opacity: 0.7;
+    cursor: progress;
+}
+
+#refreshButton:not([disabled]):hover {
+    background-color: #0c4a5f;
+    transform: translateY(-1px);
+}
+
+.error-banner {
+    background-color: #fee2e2;
+    border: 1px solid #fecaca;
+    color: #991b1b;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+main {
+    display: grid;
+    gap: 2rem;
+}
+
+.metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+}
+
+.metric-card {
+    background: white;
+    padding: 1.25rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 10px 25px -20px rgba(15, 23, 42, 0.5);
+}
+
+.metric-card h3 {
+    margin: 0;
+    font-size: 0.95rem;
+    color: #52606d;
+}
+
+.metric-card .metric-value {
+    margin: 0.75rem 0 0;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.progress h2,
+.status-breakdown h2,
+.status-key h2 {
+    margin: 0 0 0.75rem;
+}
+
+.progress-bar {
+    background: white;
+    padding: 1rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 10px 25px -20px rgba(15, 23, 42, 0.5);
+    font-family: 'Fira Code', 'Roboto Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+    font-size: 1rem;
+    letter-spacing: 0.1rem;
+}
+
+.status-breakdown table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 0.75rem;
+    box-shadow: 0 10px 25px -20px rgba(15, 23, 42, 0.5);
+    overflow: hidden;
+}
+
+.status-breakdown th,
+.status-breakdown td {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.status-breakdown tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.status-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.35rem 0.6rem;
+    border-radius: 999px;
+    font-weight: 600;
+    color: #0f172a;
+}
+
+.empty-state {
+    margin: 0;
+    background: white;
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 10px 25px -20px rgba(15, 23, 42, 0.5);
+}
+
+.status-key ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 0.5rem;
+}
+
+.status-key li {
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.75rem;
+    font-weight: 600;
+    background: #e5e7eb;
+    color: #0f172a;
+}
+
+.status-key li::before {
+    content: '';
+    display: inline-block;
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 50%;
+    margin-right: 0.5rem;
+    vertical-align: middle;
+    background: currentColor;
+}
+
+.status-key li[data-status="Not Started"] { background-color: #d9d9d9; }
+.status-key li[data-status="Drafting"] { background-color: #fff2cc; }
+.status-key li[data-status="1st Draft Ready"] { background-color: #fce4d6; }
+.status-key li[data-status="Internal Review Ongoing"] { background-color: #ffd966; }
+.status-key li[data-status="Internal Review Completed"] { background-color: #c6efce; }
+.status-key li[data-status="Expert Validtion Ongoing"] { background-color: #bdd7ee; }
+.status-key li[data-status="Expert Validation Completed"] { background-color: #9bc2e6; }
+.status-key li[data-status="Approved for Testing"] { background-color: #00b0f0; color: #ffffff; }
+.status-key li[data-status="Field Testing Completed"] { background-color: #d9d2e9; }
+.status-key li[data-status="Post-Testing Review"] { background-color: #b4a7d6; }
+.status-key li[data-status="Final Approval"] { background-color: #548235; color: #ffffff; }
+
+@media (max-width: 640px) {
+    body {
+        padding: 0 1rem 2rem;
+    }
+
+    .controls {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    #refreshButton {
+        width: 100%;
+    }
+}
