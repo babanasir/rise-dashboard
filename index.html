@@ -1070,7 +1070,7 @@ body {
                             <li>Paste it in the field above and click "Connect to Sheet"</li>
                         </ol>
                         <div class="requirements">
-                            <strong>Required columns:</strong> Material_ID, Language, Grade, Material_Type, Status
+                            <strong>Required columns:</strong> Material_ID, Material Type, Language, Grade Level, Status
                         </div>
                     </div>
                 </details>
@@ -1106,9 +1106,9 @@ body {
                         </select>
                     </div>
                     <div class="filter-group">
-                        <label class="filter-label">📚 Grade</label>
+                        <label class="filter-label">📚 Grade Level</label>
                         <select class="form-control filter-select" id="gradeFilter">
-                            <option value="all">All Grades</option>
+                            <option value="all">All Grade Levels</option>
                             <option value="ECE">ECE</option>
                             <option value="Grade 1">Grade 1</option>
                             <option value="Grade 2">Grade 2</option>
@@ -1688,7 +1688,7 @@ body {
             const headers = parseCSVRow(lines[0]);
             
             // Validate required columns
-            const requiredColumns = ['Material_ID', 'Language', 'Grade', 'Material_Type', 'Status'];
+            const requiredColumns = ['Material_ID', 'Material Type', 'Language', 'Grade Level', 'Status'];
             const missingColumns = requiredColumns.filter(col => !headers.includes(col));
             
             if (missingColumns.length > 0) {
@@ -1704,8 +1704,8 @@ body {
                     const material = {
                         material_id: row[headers.indexOf('Material_ID')] || '',
                         language: row[headers.indexOf('Language')] || '',
-                        grade: row[headers.indexOf('Grade')] || '',
-                        material_type: row[headers.indexOf('Material_Type')] || '',
+                        grade: row[headers.indexOf('Grade Level')] || '',
+                        material_type: row[headers.indexOf('Material Type')] || '',
                         status: row[headers.indexOf('Status')] || ''
                     };
                     
