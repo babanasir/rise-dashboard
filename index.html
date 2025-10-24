@@ -759,175 +759,45 @@ body {
             font-size: var(--font-size-base);
         }
 
-        /* Data Source Configuration Panel */
-        .data-source-panel {
-            background: var(--color-bg-1);
-            border: 2px solid var(--color-primary);
-            border-radius: var(--radius-lg);
-            padding: var(--space-24);
-            margin-bottom: var(--space-32);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .config-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: var(--space-20);
-        }
-
-        .config-title {
-            font-size: var(--font-size-xl);
-            font-weight: var(--font-weight-semibold);
-            color: var(--color-text);
-            margin: 0;
-        }
-
-        .connection-status {
-            display: flex;
-            align-items: center;
-            gap: var(--space-8);
-            font-weight: var(--font-weight-medium);
-            font-size: var(--font-size-sm);
-        }
-
-        .status-indicator {
-            font-size: var(--font-size-lg);
-            transition: color var(--duration-fast) var(--ease-standard);
-        }
-
-        .status-indicator.connected {
-            color: var(--color-success);
-        }
-
-        .status-indicator.disconnected {
-            color: var(--color-error);
-        }
-
-        .status-indicator.loading {
-            color: var(--color-warning);
-            animation: pulse 1.5s ease-in-out infinite alternate;
-        }
-
-        @keyframes pulse {
-            from { opacity: 1; }
-            to { opacity: 0.4; }
-        }
-
-        .config-controls {
-            margin-bottom: var(--space-20);
-        }
-
-        .url-input-group {
-            margin-bottom: var(--space-16);
-        }
-
-        .config-label {
-            display: block;
-            font-size: var(--font-size-sm);
-            font-weight: var(--font-weight-medium);
-            color: var(--color-text);
-            margin-bottom: var(--space-8);
-        }
-
-        .config-input {
-            width: 100%;
-            font-family: var(--font-family-mono);
-            font-size: var(--font-size-sm);
-        }
-
-        .config-buttons {
-            display: flex;
-            gap: var(--space-12);
-            flex-wrap: wrap;
-        }
-
-        .config-info {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: var(--space-12) var(--space-16);
-            background: var(--color-surface);
-            border-radius: var(--radius-base);
-            margin-bottom: var(--space-16);
-            font-size: var(--font-size-sm);
-        }
-
-        .last-updated-info {
-            display: flex;
-            gap: var(--space-16);
-            align-items: center;
-        }
-
-        .countdown {
-            color: var(--color-text-secondary);
-            font-style: italic;
-        }
-
-        .data-quality {
-            font-weight: var(--font-weight-medium);
-        }
-
-        .connection-instructions {
-            border: 1px solid var(--color-border);
-            border-radius: var(--radius-base);
-            overflow: hidden;
-        }
-
-        .connection-instructions summary {
-            padding: var(--space-12) var(--space-16);
-            background: var(--color-surface);
-            cursor: pointer;
-            font-weight: var(--font-weight-medium);
-            font-size: var(--font-size-base);
-            border-bottom: 1px solid var(--color-border);
-        }
-
-        .connection-instructions[open] summary {
-            border-bottom: 1px solid var(--color-border);
-        }
-
-        .instructions-content {
-            padding: var(--space-16);
+        /* Loading Overlay */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
             background: var(--color-background);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            opacity: 1;
+            transition: opacity var(--duration-normal) var(--ease-standard);
         }
 
-        .instructions-content ol {
-            margin: 0 0 var(--space-16) 0;
-            padding-left: var(--space-20);
+        .loading-overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
         }
 
-        .instructions-content li {
-            margin-bottom: var(--space-8);
-            line-height: var(--line-height-normal);
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid var(--color-secondary);
+            border-top-color: var(--color-primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
         }
 
-        .requirements {
-            padding: var(--space-12);
-            background: var(--color-warning);
-            color: var(--color-background);
-            border-radius: var(--radius-base);
-            font-size: var(--font-size-sm);
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
 
-        .error-message {
-            background: rgba(var(--color-error-rgb), 0.1);
-            color: var(--color-error);
-            padding: var(--space-12) var(--space-16);
-            border-radius: var(--radius-base);
-            border: 1px solid rgba(var(--color-error-rgb), 0.2);
-            margin-top: var(--space-12);
-            font-size: var(--font-size-sm);
-        }
-
-        .success-message {
-            background: rgba(var(--color-success-rgb), 0.1);
-            color: var(--color-success);
-            padding: var(--space-12) var(--space-16);
-            border-radius: var(--radius-base);
-            border: 1px solid rgba(var(--color-success-rgb), 0.2);
-            margin-top: var(--space-12);
-            font-size: var(--font-size-sm);
+        .loading-text {
+            margin-top: var(--space-20);
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-lg);
         }
 
         /* Responsive Design */
@@ -1021,71 +891,22 @@ body {
     </style>
 </head>
 <body>
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">Loading dashboard data...</div>
+    </div>
+
     <div class="dashboard">
         <div class="container">
-            <!-- Data Source Configuration Panel -->
-            <section class="data-source-panel">
-                <div class="config-header">
-                    <h3 class="config-title">📊 Data Source Configuration</h3>
-                    <div class="connection-status" id="connectionStatus">
-                        <span class="status-indicator disconnected" id="statusIndicator">●</span>
-                        <span id="statusText">Using Sample Data</span>
-                    </div>
-                </div>
-                
-                <div class="config-controls">
-                    <div class="url-input-group">
-                        <label class="config-label">Google Sheets Published CSV URL:</label>
-                        <input type="url" 
-                               class="form-control config-input" 
-                               id="sheetUrlInput" 
-                               placeholder="https://docs.google.com/spreadsheets/d/e/2PACX-1vT0ikFqhzx61GromLJI2Zj8SxBuMEtGTe6ph0t6EunpDI12APFUYZBZ5EgZYgrIvKyOgEtTJQ142S1Q/pub?output=csv">
-                    </div>
-                    <div class="config-buttons">
-                        <button class="btn btn--primary" id="connectSheetBtn">Connect to Sheet</button>
-                        <button class="btn btn--outline" id="useSampleDataBtn">Use Sample Data</button>
-                        <button class="btn btn--outline" id="refreshDataBtn">Refresh Now</button>
-                        <button class="btn btn--outline" id="clearUrlBtn">Clear Saved URL</button>
-                    </div>
-                </div>
-                
-                <div class="config-info">
-                    <div class="last-updated-info">
-                        <span id="dataLastUpdated">Data last updated: Never</span>
-                        <span id="nextRefreshCountdown" class="countdown"></span>
-                    </div>
-                    <div class="data-quality" id="dataQuality">No data loaded</div>
-                </div>
-                
-                <details class="connection-instructions">
-                    <summary>📖 How to Connect Your Google Sheet</summary>
-                    <div class="instructions-content">
-                        <ol>
-                            <li>Open your Google Sheet with materials data</li>
-                            <li>Go to <strong>File → Share → Publish to web</strong></li>
-                            <li>Choose "Entire document" or select specific sheet</li>
-                            <li>Select <strong>"Comma-separated values (.csv)"</strong> format</li>
-                            <li>Click <strong>"Publish"</strong></li>
-                            <li>Copy the published URL (it should contain "pub?output=csv")</li>
-                            <li>Paste it in the field above and click "Connect to Sheet"</li>
-                        </ol>
-                        <div class="requirements">
-                            <strong>Required columns:</strong> Material_ID, Material Type, Language, Grade Level, Status<br>
-                            <strong>Material Type values:</strong> Teacher Guide, Decodable Text, Leveled Reader, Illustrations<br>
-                            <strong>Grade Level values:</strong> ECD 2, ECD 3, Grade 1, Grade 2, Grade 3<br>
-                            <strong>Language values:</strong> Fula, Jola, Mandinka, Manjaku, Serahule, Serer, Wolof, English<br>
-                            <strong>Status values:</strong> 1st Draft Ready, Internal Review Ongoing, Internal Review Completed
-                        </div>
-                    </div>
-                </details>
-            </section>
-
             <!-- Header Section -->
             <header class="header">
                 <h1>RISE Materials Development Dashboard</h1>
-                <div class="subtitle">The Gambia Early Grade Reading - Live Progress Tracking</div>
-                <div class="date-time" id="currentDateTime">Friday, October 24, 2025, 1:00 PM WAT</div>
-                <div class="date-time" id="lastUpdated" style="margin-top: var(--space-8);">Last updated: 30 seconds ago</div>
+                <div class="subtitle">The Gambia Early Grade Reading - Live Tracking</div>
+                <div style="margin-top: var(--space-16); display: flex; gap: var(--space-12); justify-content: center; align-items: center; flex-wrap: wrap;">
+                    <div class="date-time" id="lastUpdated" style="font-size: var(--font-size-sm);">Last updated: Loading...</div>
+                    <button class="btn btn--outline btn--sm" id="refreshNowBtn" style="font-size: var(--font-size-sm); padding: var(--space-6) var(--space-12);">🔄 Refresh</button>
+                </div>
             </header>
 
             <!-- Filter Panel -->
@@ -1267,7 +1088,15 @@ body {
     </div>
 
     <script>
-        // Sample materials data with UPDATED options
+        // ========================================
+        // PRODUCTION VERSION - HARDCODED DATA SOURCE
+        // ========================================
+        // Google Sheets CSV URL is permanently set below
+        // Configuration UI has been removed for clean user experience
+        
+        const GOOGLE_SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT0ikFqhzx61GromLJI2Zj8SxBuMEtGTe6ph0t6EunpDI12APFUYZBZ5EgZYgrIvKyOgEtTJQ142S1Q/pub?output=csv";
+        
+        // Sample materials data with UPDATED options (fallback)
         const materialsData = [
             { material_id: "M001", language: "Fula", grade: "ECD 2", material_type: "Decodable Text", status: "1st Draft Ready" },
             { material_id: "M002", language: "Fula", grade: "ECD 3", material_type: "Decodable Text", status: "1st Draft Ready" },
@@ -1300,20 +1129,27 @@ body {
 
         let filteredData = [...materialsData];
         let highlightedStatus = null;
-        let isUsingLiveData = false;
         let autoRefreshTimer = null;
-        let countdownTimer = null;
-        let nextRefreshTime = null;
-        let savedSheetUrl = ''; // In-memory storage for sheet URL
         const REFRESH_INTERVAL = 5 * 60 * 1000; // 5 minutes in milliseconds
+        let lastUpdateTime = null;
 
         // Initialize dashboard
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', async function() {
             initializeEventListeners();
-            loadSavedConfiguration();
-            updateDashboard();
-            initializeAnimations();
-            updateLastUpdated();
+            
+            // PRODUCTION: Auto-load data from hardcoded Google Sheets URL on page load
+            await loadDataFromGoogleSheets();
+            
+            // Hide loading overlay after data is loaded
+            setTimeout(() => {
+                document.getElementById('loadingOverlay').classList.add('hidden');
+                initializeAnimations();
+            }, 500);
+            
+            // Set up auto-refresh every 5 minutes (silent in background)
+            setInterval(() => {
+                loadDataFromGoogleSheets(true); // true = silent refresh
+            }, REFRESH_INTERVAL);
         });
 
         function initializeEventListeners() {
@@ -1336,11 +1172,10 @@ body {
                 });
             });
 
-            // Data source configuration events
-            document.getElementById('connectSheetBtn').addEventListener('click', connectToGoogleSheet);
-            document.getElementById('useSampleDataBtn').addEventListener('click', useSampleData);
-            document.getElementById('refreshDataBtn').addEventListener('click', refreshData);
-            document.getElementById('clearUrlBtn').addEventListener('click', clearSavedUrl);
+            // Manual refresh button
+            document.getElementById('refreshNowBtn').addEventListener('click', () => {
+                loadDataFromGoogleSheets();
+            });
         }
 
         function handleFilterChange() {
@@ -1566,21 +1401,7 @@ body {
             document.getElementById(`${tabName}-tab`).classList.add('active');
         }
 
-        function updateLastUpdated() {
-            const now = new Date();
-            const seconds = Math.floor((now.getTime() / 1000) % 60);
-            let updateText;
-            
-            if (seconds < 30) {
-                updateText = 'Last updated: just now';
-            } else if (seconds < 60) {
-                updateText = `Last updated: ${seconds} seconds ago`;
-            } else {
-                updateText = 'Last updated: 1 minute ago';
-            }
-            
-            document.getElementById('lastUpdated').textContent = updateText;
-        }
+
 
         function initializeAnimations() {
             const metricCards = document.querySelectorAll('.metric-card');
@@ -1618,58 +1439,103 @@ body {
         `;
         document.head.appendChild(style);
 
-        // Update last updated time every 30 seconds
-        setInterval(updateLastUpdated, 30000);
-
-        // LIVE GOOGLE SHEETS INTEGRATION FUNCTIONS
-
-        async function connectToGoogleSheet() {
-            const url = document.getElementById('sheetUrlInput').value.trim();
-            
-            if (!url) {
-                showMessage('Please enter a Google Sheets CSV URL', 'error');
-                return;
-            }
-
-            if (!isValidGoogleSheetsUrl(url)) {
-                showMessage('Please enter a valid Google Sheets published CSV URL', 'error');
-                return;
-            }
-
-            setConnectionStatus('loading', 'Connecting...');
-            
+        // ========================================
+        // LIVE GOOGLE SHEETS INTEGRATION
+        // ========================================
+        
+        async function loadDataFromGoogleSheets(silent = false) {
             try {
-                const data = await fetchGoogleSheetCSV(url);
+                if (!silent) {
+                    document.getElementById('lastUpdated').textContent = 'Loading data...';
+                }
+                
+                const data = await fetchGoogleSheetCSV(GOOGLE_SHEET_URL);
                 
                 if (data && data.length > 0) {
-                    // Save URL to in-memory storage
-                    savedSheetUrl = url;
-                    
                     // Update global data
                     materialsData.length = 0;
                     materialsData.push(...data);
                     filteredData = [...materialsData];
-                    isUsingLiveData = true;
+                    
+                    // Record update time
+                    lastUpdateTime = new Date();
                     
                     // Update UI
-                    setConnectionStatus('connected', `Connected (${data.length} materials loaded)`);
-                    updateDataQuality(data);
-                    updateDataLastUpdated();
                     updateDashboard();
+                    updateLastUpdatedDisplay();
                     
-                    // Start auto-refresh
-                    startAutoRefresh();
-                    
-                    showMessage(`Successfully connected! Loaded ${data.length} materials.`, 'success');
+                    console.log(`✅ Data loaded successfully: ${data.length} materials`);
                 } else {
                     throw new Error('No valid data found in the sheet');
                 }
             } catch (error) {
-                console.error('Error connecting to Google Sheet:', error);
-                setConnectionStatus('disconnected', 'Connection Failed');
-                showMessage(`Connection failed: ${error.message}`, 'error');
+                console.error('❌ Error loading data from Google Sheets:', error);
+                
+                // Fall back to sample data if connection fails
+                if (materialsData.length === 0) {
+                    resetToSampleData();
+                    lastUpdateTime = new Date();
+                    updateDashboard();
+                }
+                
+                if (!silent) {
+                    document.getElementById('lastUpdated').textContent = 'Using sample data';
+                }
             }
         }
+        
+        function resetToSampleData() {
+            materialsData.length = 0;
+            materialsData.push(
+                { material_id: "M001", language: "Fula", grade: "ECD 2", material_type: "Decodable Text", status: "1st Draft Ready" },
+                { material_id: "M002", language: "Fula", grade: "ECD 3", material_type: "Decodable Text", status: "1st Draft Ready" },
+                { material_id: "M003", language: "Mandinka", grade: "ECD 2", material_type: "Leveled Reader", status: "Internal Review Ongoing" },
+                { material_id: "M004", language: "Mandinka", grade: "Grade 1", material_type: "Decodable Text", status: "1st Draft Ready" },
+                { material_id: "M005", language: "Wolof", grade: "Grade 2", material_type: "Leveled Reader", status: "Internal Review Completed" },
+                { material_id: "M006", language: "Wolof", grade: "Grade 3", material_type: "Teacher Guide", status: "Internal Review Ongoing" },
+                { material_id: "M007", language: "Jola", grade: "ECD 2", material_type: "Decodable Text", status: "1st Draft Ready" },
+                { material_id: "M008", language: "Jola", grade: "Grade 1", material_type: "Leveled Reader", status: "Internal Review Ongoing" },
+                { material_id: "M009", language: "English", grade: "Grade 2", material_type: "Teacher Guide", status: "Internal Review Completed" },
+                { material_id: "M010", language: "English", grade: "Grade 3", material_type: "Illustrations", status: "1st Draft Ready" },
+                { material_id: "M011", language: "Serahule", grade: "ECD 3", material_type: "Leveled Reader", status: "Internal Review Ongoing" },
+                { material_id: "M012", language: "Serahule", grade: "Grade 1", material_type: "Teacher Guide", status: "1st Draft Ready" },
+                { material_id: "M013", language: "Manjaku", grade: "Grade 2", material_type: "Illustrations", status: "Internal Review Completed" },
+                { material_id: "M014", language: "Manjaku", grade: "Grade 3", material_type: "Leveled Reader", status: "Internal Review Ongoing" },
+                { material_id: "M015", language: "Serer", grade: "ECD 2", material_type: "Teacher Guide", status: "1st Draft Ready" },
+                { material_id: "M016", language: "Serer", grade: "Grade 1", material_type: "Decodable Text", status: "Internal Review Completed" },
+                { material_id: "M017", language: "Fula", grade: "Grade 2", material_type: "Illustrations", status: "Internal Review Ongoing" },
+                { material_id: "M018", language: "Mandinka", grade: "Grade 3", material_type: "Teacher Guide", status: "1st Draft Ready" },
+                { material_id: "M019", language: "Wolof", grade: "ECD 3", material_type: "Decodable Text", status: "Internal Review Completed" },
+                { material_id: "M020", language: "English", grade: "ECD 2", material_type: "Leveled Reader", status: "Internal Review Ongoing" }
+            );
+            filteredData = [...materialsData];
+        }
+        
+        function updateLastUpdatedDisplay() {
+            if (!lastUpdateTime) {
+                document.getElementById('lastUpdated').textContent = 'Last updated: Loading...';
+                return;
+            }
+            
+            const now = new Date();
+            const seconds = Math.floor((now - lastUpdateTime) / 1000);
+            
+            let updateText;
+            if (seconds < 10) {
+                updateText = 'Last updated: just now';
+            } else if (seconds < 60) {
+                updateText = `Last updated: ${seconds} seconds ago`;
+            } else {
+                const minutes = Math.floor(seconds / 60);
+                updateText = `Last updated: ${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+            }
+            
+            document.getElementById('lastUpdated').textContent = updateText;
+        }
+
+        // CSV PARSING AND DATA FETCHING
+
+
 
         async function fetchGoogleSheetCSV(url) {
             const response = await fetch(url);
@@ -1758,261 +1624,7 @@ body {
             return result;
         }
 
-        function isValidGoogleSheetsUrl(url) {
-            return url.includes('docs.google.com/spreadsheets') && url.includes('pub?output=csv');
-        }
 
-        function useSampleData() {
-            // Stop auto-refresh
-            stopAutoRefresh();
-            
-            // Reset to sample data with UPDATED options
-            materialsData.length = 0;
-            materialsData.push(
-                { material_id: "M001", language: "Fula", grade: "ECD 2", material_type: "Decodable Text", status: "1st Draft Ready" },
-                { material_id: "M002", language: "Fula", grade: "ECD 3", material_type: "Decodable Text", status: "1st Draft Ready" },
-                { material_id: "M003", language: "Mandinka", grade: "ECD 2", material_type: "Leveled Reader", status: "Internal Review Ongoing" },
-                { material_id: "M004", language: "Mandinka", grade: "Grade 1", material_type: "Decodable Text", status: "1st Draft Ready" },
-                { material_id: "M005", language: "Wolof", grade: "Grade 2", material_type: "Leveled Reader", status: "Internal Review Completed" },
-                { material_id: "M006", language: "Wolof", grade: "Grade 3", material_type: "Teacher Guide", status: "Internal Review Ongoing" },
-                { material_id: "M007", language: "Jola", grade: "ECD 2", material_type: "Decodable Text", status: "1st Draft Ready" },
-                { material_id: "M008", language: "Jola", grade: "Grade 1", material_type: "Leveled Reader", status: "Internal Review Ongoing" },
-                { material_id: "M009", language: "English", grade: "Grade 2", material_type: "Teacher Guide", status: "Internal Review Completed" },
-                { material_id: "M010", language: "English", grade: "Grade 3", material_type: "Illustrations", status: "1st Draft Ready" },
-                { material_id: "M011", language: "Serahule", grade: "ECD 3", material_type: "Leveled Reader", status: "Internal Review Ongoing" },
-                { material_id: "M012", language: "Serahule", grade: "Grade 1", material_type: "Teacher Guide", status: "1st Draft Ready" },
-                { material_id: "M013", language: "Manjaku", grade: "Grade 2", material_type: "Illustrations", status: "Internal Review Completed" },
-                { material_id: "M014", language: "Manjaku", grade: "Grade 3", material_type: "Leveled Reader", status: "Internal Review Ongoing" },
-                { material_id: "M015", language: "Serer", grade: "ECD 2", material_type: "Teacher Guide", status: "1st Draft Ready" },
-                { material_id: "M016", language: "Serer", grade: "Grade 1", material_type: "Decodable Text", status: "Internal Review Completed" },
-                { material_id: "M017", language: "Fula", grade: "Grade 2", material_type: "Illustrations", status: "Internal Review Ongoing" },
-                { material_id: "M018", language: "Mandinka", grade: "Grade 3", material_type: "Teacher Guide", status: "1st Draft Ready" },
-                { material_id: "M019", language: "Wolof", grade: "ECD 3", material_type: "Decodable Text", status: "Internal Review Completed" },
-                { material_id: "M020", language: "English", grade: "ECD 2", material_type: "Leveled Reader", status: "Internal Review Ongoing" }
-            );
-            
-            filteredData = [...materialsData];
-            isUsingLiveData = false;
-            
-            setConnectionStatus('disconnected', 'Using Sample Data');
-            updateDataQuality(materialsData);
-            document.getElementById('dataLastUpdated').textContent = 'Data last updated: Using sample data';
-            updateDashboard();
-            
-            showMessage('Switched to sample data', 'success');
-        }
-
-        async function refreshData() {
-            if (!isUsingLiveData) {
-                showMessage('Not connected to live data. Use sample data or connect to a Google Sheet.', 'error');
-                return;
-            }
-            
-            const url = document.getElementById('sheetUrlInput').value.trim();
-            if (!url) {
-                showMessage('No Google Sheets URL configured', 'error');
-                return;
-            }
-            
-            setConnectionStatus('loading', 'Refreshing...');
-            
-            try {
-                const data = await fetchGoogleSheetCSV(url);
-                
-                // Update global data
-                materialsData.length = 0;
-                materialsData.push(...data);
-                filteredData = [...materialsData];
-                
-                setConnectionStatus('connected', `Connected (${data.length} materials loaded)`);
-                updateDataQuality(data);
-                updateDataLastUpdated();
-                updateDashboard();
-                
-                // Reset auto-refresh timer
-                startAutoRefresh();
-                
-                showMessage('Data refreshed successfully', 'success');
-            } catch (error) {
-                console.error('Error refreshing data:', error);
-                setConnectionStatus('disconnected', 'Refresh Failed');
-                showMessage(`Refresh failed: ${error.message}`, 'error');
-            }
-        }
-
-        function clearSavedUrl() {
-            // Clear in-memory storage
-            savedSheetUrl = '';
-            document.getElementById('sheetUrlInput').value = '';
-            showMessage('Saved URL cleared', 'success');
-        }
-
-        function loadSavedConfiguration() {
-            // Load from in-memory storage
-            if (savedSheetUrl) {
-                document.getElementById('sheetUrlInput').value = savedSheetUrl;
-            }
-        }
-
-        function setConnectionStatus(status, text) {
-            const indicator = document.getElementById('statusIndicator');
-            const statusText = document.getElementById('statusText');
-            
-            indicator.className = `status-indicator ${status}`;
-            statusText.textContent = text;
-        }
-
-        function updateDataQuality(data) {
-            const qualityElement = document.getElementById('dataQuality');
-            qualityElement.textContent = `${data.length} materials loaded, 0 errors`;
-        }
-
-        function updateDataLastUpdated() {
-            const now = new Date();
-            const timeString = now.toLocaleTimeString();
-            document.getElementById('dataLastUpdated').textContent = `Data last updated: ${timeString}`;
-        }
-
-        function startAutoRefresh() {
-            stopAutoRefresh(); // Clear any existing timer
-            
-            nextRefreshTime = Date.now() + REFRESH_INTERVAL;
-            
-            autoRefreshTimer = setTimeout(() => {
-                if (isUsingLiveData) {
-                    refreshData();
-                }
-            }, REFRESH_INTERVAL);
-            
-            // Start countdown display
-            updateCountdown();
-            countdownTimer = setInterval(updateCountdown, 1000);
-        }
-
-        function stopAutoRefresh() {
-            if (autoRefreshTimer) {
-                clearTimeout(autoRefreshTimer);
-                autoRefreshTimer = null;
-            }
-            
-            if (countdownTimer) {
-                clearInterval(countdownTimer);
-                countdownTimer = null;
-            }
-            
-            document.getElementById('nextRefreshCountdown').textContent = '';
-        }
-
-        function updateCountdown() {
-            if (!nextRefreshTime) return;
-            
-            const remaining = Math.max(0, nextRefreshTime - Date.now());
-            const minutes = Math.floor(remaining / 60000);
-            const seconds = Math.floor((remaining % 60000) / 1000);
-            
-            if (remaining > 0) {
-                document.getElementById('nextRefreshCountdown').textContent = 
-                    `Next refresh in ${minutes}:${seconds.toString().padStart(2, '0')}`;
-            } else {
-                document.getElementById('nextRefreshCountdown').textContent = '';
-            }
-        }
-
-        function showMessage(message, type) {
-            // Remove any existing messages
-            const existingMessage = document.querySelector('.error-message, .success-message');
-            if (existingMessage) {
-                existingMessage.remove();
-            }
-            
-            const messageDiv = document.createElement('div');
-            messageDiv.className = type === 'error' ? 'error-message' : 'success-message';
-            messageDiv.textContent = message;
-            
-            const configControls = document.querySelector('.config-controls');
-            configControls.appendChild(messageDiv);
-            
-            // Auto-remove after 5 seconds
-            setTimeout(() => {
-                if (messageDiv.parentNode) {
-                    messageDiv.remove();
-                }
-            }, 5000);
-        }
-
-        /*
-        === LINKING TO LIVE GOOGLE SHEETS DATA ===
-        
-        To connect this dashboard to live Google Sheets data, you have several options:
-        
-        1. GOOGLE SHEETS API (Recommended for production):
-           - Set up Google Sheets API credentials in Google Cloud Console
-           - Use the sheets.values.get() method to fetch data
-           - Replace the materialsData array with API calls
-           - Example implementation:
-           
-           async function fetchMaterialsData() {
-               const SHEET_ID = 'your-google-sheet-id';
-               const API_KEY = 'your-api-key';
-               const RANGE = 'Sheet1!A1:E1000';
-               
-               const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${RANGE}?key=${API_KEY}`;
-               
-               try {
-                   const response = await fetch(url);
-                   const data = await response.json();
-                   const rows = data.values;
-                   
-                   // Convert rows to objects (skip header row)
-                   const materials = rows.slice(1).map(row => ({
-                       material_id: row[0],
-                       language: row[1],
-                       grade: row[2],
-                       material_type: row[3],
-                       status: row[4]
-                   }));
-                   
-                   return materials;
-               } catch (error) {
-                   console.error('Error fetching data:', error);
-                   return [];
-               }
-           }
-           
-        2. GOOGLE APPS SCRIPT WEB APP:
-           - Create a Google Apps Script that publishes sheet data as JSON
-           - Fetch data using simple HTTP requests
-           - More control over data processing and security
-           
-        3. CSV EXPORT WITH AUTOMATION:
-           - Set up automated CSV exports from Google Sheets
-           - Host CSV files on a web server
-           - Parse CSV data in the dashboard
-           
-        4. GOOGLE SHEETS PUBLISHED WEB VERSION:
-           - Publish Google Sheet as CSV
-           - Fetch using CORS-enabled requests
-           - Simpler but less secure option
-           
-        IMPLEMENTATION STEPS:
-        1. Replace the materialsData array initialization
-        2. Call fetchMaterialsData() on page load
-        3. Set up periodic refresh (every 5-10 minutes)
-        4. Add error handling for connection failures
-        5. Show loading states during data fetch
-        6. Cache data locally for offline functionality
-        
-        GOOGLE SHEETS DATA FORMAT:
-        Ensure your Google Sheet has columns in this order:
-        A: Material_ID (e.g., M001, M002, etc.)
-        B: Language (Fula, Mandinka, Wolof, etc.)
-        C: Grade (ECE, Grade 1, Grade 2, etc.)
-        D: Material_Type (Decodable Reader, Leveled Reader, Teacher Guide)
-        E: Status (1st Draft Ready, Internal Review Ongoing, Internal Review Completed)
-        
-        The dashboard will automatically update all metrics, charts, and tables
-        when new data is loaded from Google Sheets.
-        */
     </script>
 </body>
 </html>
