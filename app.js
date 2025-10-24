@@ -1,159 +1,135 @@
-const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/1T0ikFqhzx61GromLJlZZj8SxBuMEtGTe6ph0t6EunpD/export?format=csv&gid=646193820';
+const SHEET_URL = "https://docs.google.com/spreadsheets/d/1T0ikFqhzx61GromLJlZZj8SxBuMEtGTe6ph0t6EunpD/export?format=csv&gid=646193820";
 
-const STATUS_STYLES = {
-    'Not Started': { background: '#d9d9d9', color: '#0f172a' },
-    Drafting: { background: '#fff2cc', color: '#0f172a' },
-    '1st Draft Ready': { background: '#fce4d6', color: '#0f172a' },
-    'Internal Review Ongoing': { background: '#ffd966', color: '#0f172a' },
-    'Internal Review Completed': { background: '#c6efce', color: '#0f172a' },
-    'Expert Validtion Ongoing': { background: '#bdd7ee', color: '#0f172a' },
-    'Expert Validation Completed': { background: '#9bc2e6', color: '#0f172a' },
-    'Approved for Testing': { background: '#00b0f0', color: '#ffffff' },
-    'Field Testing Completed': { background: '#d9d2e9', color: '#0f172a' },
-    'Post-Testing Review': { background: '#b4a7d6', color: '#0f172a' },
-    'Final Approval': { background: '#548235', color: '#ffffff' }
+const STATUS_COLORS = {
+    "Not Started": { bg: "#d9d9d9", text: "#0f172a" },
+    Drafting: { bg: "#fff2cc", text: "#0f172a" },
+    "1st Draft Ready": { bg: "#fce4d6", text: "#0f172a" },
+    "Internal Review Ongoing": { bg: "#ffd966", text: "#0f172a" },
+    "Internal Review Completed": { bg: "#c6efce", text: "#0f172a" },
+    "Expert Validtion Ongoing": { bg: "#bdd7ee", text: "#0f172a" },
+    "Expert Validation Completed": { bg: "#9bc2e6", text: "#0f172a" },
+    "Approved for Testing": { bg: "#00b0f0", text: "#ffffff" },
+    "Field Testing Completed": { bg: "#d9d2e9", text: "#0f172a" },
+    "Post-Testing Review": { bg: "#b4a7d6", text: "#0f172a" },
+    "Final Approval": { bg: "#548235", text: "#ffffff" }
 };
 
-const EXPECTED_HEADERS = [
-    'Material Type',
-    'Language',
-    'Grade Level',
-    'Unit/Week',
-    'Lesson',
-    'Title/Description',
-    'Status',
-    'Comments/Notes',
-    'Current Owner',
-    'Due Date',
-    'Priority'
+const STATUS_SEQUENCE = [
+    "Not Started",
+    "Drafting",
+    "1st Draft Ready",
+    "Internal Review Ongoing",
+    "Internal Review Completed",
+    "Expert Validtion Ongoing",
+    "Expert Validation Completed",
+    "Approved for Testing",
+    "Field Testing Completed",
+    "Post-Testing Review",
+    "Final Approval"
 ];
 
-const metricsContainer = document.getElementById('metrics');
-const progressBar = document.getElementById('progressBar');
-const statusTableBody = document.querySelector('#status-table tbody');
-const lastUpdatedEl = document.getElementById('lastUpdated');
-const errorBanner = document.getElementById('errorBanner');
-const refreshButton = document.getElementById('refreshButton');
+const metricsContainer = document.getElementById("metrics");
+const statusTableBody = document.querySelector("#status-table tbody");
+const lastUpdatedEl = document.getElementById("lastUpdated");
+const errorBanner = document.getElementById("error-banner");
+const refreshButton = document.getElementById("refreshButton");
 
-refreshButton.addEventListener('click', () => {
+refreshButton.addEventListener("click", () => {
     loadDashboard();
 });
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
     loadDashboard();
 });
 
 async function loadDashboard() {
-    toggleLoadingState(true);
+    setLoadingState(true);
     clearError();
 
     try {
         const rows = await fetchSheetRows();
-        renderDashboard(rows);
+        const lessonRows = rows.filter((row) => Number.isFinite(parseLesson(row["Lesson"])));
+
+        if (!lessonRows.length) {
+            renderEmptyState();
+            updateTimestamp();
+            return;
+        }
+
+        renderDashboard(lessonRows);
+        updateTimestamp();
     } catch (error) {
         console.error(error);
-        showError(error.message || 'Something went wrong.');
+        showError(error.message || "Unable to load dashboard data.");
         renderFallbackState();
     } finally {
-        toggleLoadingState(false);
+        setLoadingState(false);
     }
-}
-
-function toggleLoadingState(isLoading) {
-    refreshButton.disabled = isLoading;
-    refreshButton.textContent = isLoading ? 'Loading…' : 'Refresh';
 }
 
 async function fetchSheetRows() {
-    const response = await fetch(`${SHEET_CSV_URL}&_ts=${Date.now()}`);
+    const response = await fetch(`${SHEET_URL}&_ts=${Date.now()}`);
 
     if (!response.ok) {
-        throw new Error('Unable to fetch the Google Sheet. Please try again later.');
+        throw new Error("Unable to fetch the Google Sheet. Please try again later.");
     }
 
     const text = await response.text();
-    const parsed = parseCSV(text);
+    const rows = parseCSV(text);
 
-    if (!parsed.length) {
-        throw new Error('The CSV did not contain any data.');
+    if (!rows.length) {
+        return [];
     }
 
-    const headers = parsed[0];
-
-    if (!arraysEqual(headers, EXPECTED_HEADERS)) {
-        throw new Error('Unexpected CSV format. Please verify the sheet columns.');
-    }
-
-    return parsed.slice(1).map((row) => toObject(headers, row));
+    return rows;
 }
 
 function renderDashboard(rows) {
-    const totalLessons = rows.reduce((count, row) => {
-        const lesson = Number(row['Lesson']);
-        return Number.isFinite(lesson) ? count + 1 : count;
-    }, 0);
-
-    const completed = rows.filter((row) => row['Status'].trim() === 'Final Approval').length;
-    const notStarted = rows.filter((row) => row['Status'].trim() === 'Not Started').length;
+    const totalLessons = rows.length;
+    const completed = rows.filter((row) => normalizeStatus(row["Status"]) === "Final Approval").length;
+    const notStarted = rows.filter((row) => normalizeStatus(row["Status"]) === "Not Started").length;
     const inProgress = Math.max(totalLessons - completed - notStarted, 0);
     const percentComplete = totalLessons > 0 ? completed / totalLessons : 0;
 
-    renderMetrics({
-        totalLessons,
-        completed,
-        notStarted,
-        inProgress,
-        percentComplete
-    });
-
-    renderProgress(percentComplete);
+    renderMetrics({ totalLessons, completed, notStarted, inProgress, percentComplete });
     renderStatusTable(rows);
-    updateTimestamp();
 }
 
-function renderMetrics(metrics) {
-    const { totalLessons, completed, notStarted, inProgress, percentComplete } = metrics;
-
-    metricsContainer.innerHTML = '';
+function renderMetrics({ totalLessons, completed, notStarted, inProgress, percentComplete }) {
+    metricsContainer.innerHTML = "";
 
     const metricData = [
-        { label: 'Total Lessons', value: totalLessons },
-        { label: 'Completed (Final Approval)', value: completed },
-        { label: 'Not Started', value: notStarted },
-        { label: 'In Progress', value: inProgress },
-        { label: '% Complete', value: formatPercent(percentComplete) }
+        { label: "Total Lessons", value: totalLessons.toLocaleString() },
+        { label: "Completed (Final Approval)", value: completed.toLocaleString() },
+        { label: "Not Started", value: notStarted.toLocaleString() },
+        { label: "In Progress", value: inProgress.toLocaleString() }
     ];
 
-    metricData.forEach((metric) => {
-        const card = document.createElement('article');
-        card.className = 'metric-card';
-
-        const label = document.createElement('h3');
-        label.textContent = metric.label;
-
-        const value = document.createElement('p');
-        value.className = 'metric-value';
-        value.textContent = metric.value;
-
-        card.append(label, value);
+    metricData.forEach(({ label, value }) => {
+        const card = document.createElement("article");
+        card.className = "metric-card";
+        card.innerHTML = `
+            <h3>${label}</h3>
+            <p class="metric-value">${value}</p>
+        `;
         metricsContainer.appendChild(card);
     });
-}
 
-function renderProgress(percent) {
-    const blocks = 20;
-    const filledBlocks = Math.round(percent * blocks);
-    const emptyBlocks = Math.max(blocks - filledBlocks, 0);
-    const bar = `${'█'.repeat(filledBlocks)}${'░'.repeat(emptyBlocks)}`;
-    const formatted = `${bar} ${formatPercent(percent)}`;
-    progressBar.textContent = formatted;
+    const progressCard = document.createElement("article");
+    progressCard.className = "metric-card metric-progress";
+    progressCard.innerHTML = `
+        <h3>Percent Complete</h3>
+        <p class="metric-value">${formatPercent(percentComplete)}</p>
+        <pre class="progress-bar" aria-label="${formatPercent(percentComplete)} complete">${generateProgressBar(percentComplete)}</pre>
+    `;
+    metricsContainer.appendChild(progressCard);
 }
 
 function renderStatusTable(rows) {
-    statusTableBody.innerHTML = '';
+    statusTableBody.innerHTML = "";
 
     const counts = rows.reduce((acc, row) => {
-        const status = row['Status'].trim();
+        const status = normalizeStatus(row["Status"]);
         if (!status) {
             return acc;
         }
@@ -161,39 +137,51 @@ function renderStatusTable(rows) {
         return acc;
     }, {});
 
-    const sortedStatuses = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+    const dynamicStatuses = Object.keys(counts).filter((status) => !STATUS_SEQUENCE.includes(status)).sort();
+    const statuses = [...STATUS_SEQUENCE, ...dynamicStatuses];
 
-    sortedStatuses.forEach(([status, count]) => {
-        const tr = document.createElement('tr');
+    if (!statuses.length) {
+        const emptyRow = document.createElement("tr");
+        emptyRow.innerHTML = '<td colspan="2">No lesson statuses available.</td>';
+        statusTableBody.appendChild(emptyRow);
+        return;
+    }
 
-        const statusCell = document.createElement('td');
-        const pill = document.createElement('span');
-        pill.className = 'status-pill';
-        pill.textContent = status;
-        const statusStyle = STATUS_STYLES[status];
-        if (statusStyle) {
-            pill.style.backgroundColor = statusStyle.background;
-            pill.style.color = statusStyle.color;
-        }
-        statusCell.appendChild(pill);
+    statuses.forEach((status) => {
+        const count = counts[status] || 0;
+        const colors = STATUS_COLORS[status] || { bg: "#e5e7eb", text: "#0f172a" };
 
-        const countCell = document.createElement('td');
-        countCell.textContent = count;
+        const row = document.createElement("tr");
+        row.dataset.status = status;
 
-        tr.append(statusCell, countCell);
-        statusTableBody.appendChild(tr);
+        const statusCell = document.createElement("td");
+        statusCell.className = "status-cell";
+        statusCell.textContent = status;
+        statusCell.style.backgroundColor = colors.bg;
+        statusCell.style.color = colors.text;
+
+        const countCell = document.createElement("td");
+        countCell.className = "status-count";
+        countCell.textContent = count.toLocaleString();
+
+        row.append(statusCell, countCell);
+        statusTableBody.appendChild(row);
     });
 }
 
-function updateTimestamp() {
-    const now = new Date();
-    lastUpdatedEl.textContent = now.toLocaleString();
+function renderEmptyState() {
+    metricsContainer.innerHTML = '<p class="empty-state">No lessons found in the sheet yet. Once rows are added, metrics will appear here.</p>';
+    statusTableBody.innerHTML = '<tr><td colspan="2">No lesson statuses available.</td></tr>';
 }
 
 function renderFallbackState() {
     metricsContainer.innerHTML = '<p class="empty-state">Metrics unavailable.</p>';
-    progressBar.textContent = '';
-    statusTableBody.innerHTML = '';
+    statusTableBody.innerHTML = "";
+}
+
+function setLoadingState(isLoading) {
+    refreshButton.disabled = isLoading;
+    refreshButton.textContent = isLoading ? "Loading…" : "Refresh";
 }
 
 function showError(message) {
@@ -203,13 +191,42 @@ function showError(message) {
 
 function clearError() {
     errorBanner.hidden = true;
-    errorBanner.textContent = '';
+    errorBanner.textContent = "";
+}
+
+function updateTimestamp() {
+    const now = new Date();
+    lastUpdatedEl.textContent = now.toLocaleString();
+}
+
+function generateProgressBar(percent) {
+    const segments = 20;
+    const filled = Math.round(percent * segments);
+    const empty = segments - filled;
+    return `${"█".repeat(filled)}${"░".repeat(Math.max(empty, 0))}`;
+}
+
+function parseLesson(value) {
+    const parsed = Number.parseInt(value, 10);
+    return Number.isFinite(parsed) ? parsed : NaN;
+}
+
+function normalizeStatus(value = "") {
+    return String(value).trim();
+}
+
+function formatPercent(value) {
+    return `${Math.round(value * 100)}%`;
 }
 
 function parseCSV(text) {
+    if (!text || !text.trim()) {
+        return [];
+    }
+
     const rows = [];
-    let currentRow = [];
-    let currentValue = '';
+    let current = [];
+    let currentValue = "";
     let inQuotes = false;
 
     for (let i = 0; i < text.length; i++) {
@@ -219,51 +236,45 @@ function parseCSV(text) {
         if (char === '"') {
             if (inQuotes && nextChar === '"') {
                 currentValue += '"';
-                i++; // Skip escaped quote
+                i++;
             } else {
                 inQuotes = !inQuotes;
             }
-        } else if (char === ',' && !inQuotes) {
-            currentRow.push(currentValue);
-            currentValue = '';
-        } else if ((char === '\n' || char === '\r') && !inQuotes) {
-            if (currentValue !== '' || currentRow.length) {
-                currentRow.push(currentValue);
-                rows.push(currentRow);
-                currentRow = [];
-                currentValue = '';
-            }
-            if (char === '\r' && nextChar === '\n') {
+        } else if (char === "," && !inQuotes) {
+            current.push(currentValue);
+            currentValue = "";
+        } else if ((char === "\n" || char === "\r") && !inQuotes) {
+            if (char === "\r" && nextChar === "\n") {
                 i++;
             }
+            current.push(currentValue);
+            rows.push(current);
+            current = [];
+            currentValue = "";
         } else {
             currentValue += char;
         }
     }
 
-    if (currentValue !== '' || currentRow.length) {
-        currentRow.push(currentValue);
-        rows.push(currentRow);
+    if (currentValue !== "" || current.length) {
+        current.push(currentValue);
+        rows.push(current);
     }
 
-    return rows.map((row) => row.map((value) => value.trim()));
-}
-
-function toObject(headers, row) {
-    const obj = {};
-    headers.forEach((header, index) => {
-        obj[header] = row[index] ?? '';
-    });
-    return obj;
-}
-
-function arraysEqual(a, b) {
-    if (a.length !== b.length) {
-        return false;
+    if (!rows.length) {
+        return [];
     }
-    return a.every((value, index) => value === b[index]);
-}
 
-function formatPercent(value) {
-    return `${(value * 100).toFixed(0)}%`;
+    const headers = rows[0].map((value) => value.trim());
+    const dataRows = rows.slice(1);
+
+    return dataRows
+        .filter((row) => row.some((cell) => cell && cell.trim() !== ""))
+        .map((row) => {
+            const obj = {};
+            headers.forEach((header, index) => {
+                obj[header] = (row[index] || "").trim();
+            });
+            return obj;
+        });
 }

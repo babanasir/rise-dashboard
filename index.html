@@ -7,59 +7,39 @@
     <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-    <header class="site-header">
-        <div class="title-block">
-            <h1>RISE Materials Dashboard</h1>
-            <p class="subtitle">Live progress from the Google Sheets tracker</p>
-        </div>
-        <div class="controls">
-            <div class="timestamp">
-                Last updated: <span id="lastUpdated">Never</span>
+    <div class="page">
+        <header class="site-header">
+            <div class="title-block">
+                <h1>RISE Materials Dashboard</h1>
+                <p class="subtitle">Live progress from the Google Sheets tracker</p>
             </div>
-            <button id="refreshButton" type="button">Refresh</button>
-        </div>
-    </header>
+            <div class="controls">
+                <div class="timestamp">Last updated: <span id="lastUpdated">Never</span></div>
+                <button id="refreshButton" type="button">Refresh</button>
+            </div>
+        </header>
 
-    <div id="errorBanner" class="error-banner" role="alert" hidden></div>
+        <section id="error-banner" class="error-banner" role="alert" hidden></section>
 
-    <main>
-        <section class="metrics" id="metrics" aria-live="polite"></section>
+        <main class="dashboard" role="main">
+            <div class="dashboard-card">
+                <section id="metrics" class="metrics" aria-live="polite"></section>
 
-        <section class="progress" aria-live="polite">
-            <h2>Overall Progress</h2>
-            <pre id="progressBar" class="progress-bar" aria-label="Percent complete"></pre>
-        </section>
-
-        <section class="status-breakdown">
-            <h2>Status Breakdown</h2>
-            <table id="status-table">
-                <thead>
-                    <tr>
-                        <th>Status</th>
-                        <th>Count</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        </section>
-
-        <section class="status-key">
-            <h2>Status Color Key</h2>
-            <ul>
-                <li data-status="Not Started">Not Started</li>
-                <li data-status="Drafting">Drafting</li>
-                <li data-status="1st Draft Ready">1st Draft Ready</li>
-                <li data-status="Internal Review Ongoing">Internal Review Ongoing</li>
-                <li data-status="Internal Review Completed">Internal Review Completed</li>
-                <li data-status="Expert Validtion Ongoing">Expert Validtion Ongoing</li>
-                <li data-status="Expert Validation Completed">Expert Validation Completed</li>
-                <li data-status="Approved for Testing">Approved for Testing</li>
-                <li data-status="Field Testing Completed">Field Testing Completed</li>
-                <li data-status="Post-Testing Review">Post-Testing Review</li>
-                <li data-status="Final Approval">Final Approval</li>
-            </ul>
-        </section>
-    </main>
+                <section id="status-table" class="status-breakdown" aria-live="polite">
+                    <h2>Status Breakdown</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th scope="col">Status</th>
+                                <th scope="col">Count</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </section>
+            </div>
+        </main>
+    </div>
 
     <script src="app.js"></script>
 </body>
