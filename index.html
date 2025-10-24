@@ -1070,7 +1070,11 @@ body {
                             <li>Paste it in the field above and click "Connect to Sheet"</li>
                         </ol>
                         <div class="requirements">
-                            <strong>Required columns:</strong> Material_ID, Material Type, Language, Grade Level, Status
+                            <strong>Required columns:</strong> Material_ID, Material Type, Language, Grade Level, Status<br>
+                            <strong>Material Type values:</strong> Teacher Guide, Decodable Text, Leveled Reader, Illustrations<br>
+                            <strong>Grade Level values:</strong> ECD 2, ECD 3, Grade 1, Grade 2, Grade 3<br>
+                            <strong>Language values:</strong> Fula, Jola, Mandinka, Manjaku, Serahule, Serer, Wolof, English<br>
+                            <strong>Status values:</strong> 1st Draft Ready, Internal Review Ongoing, Internal Review Completed
                         </div>
                     </div>
                 </details>
@@ -1109,20 +1113,21 @@ body {
                         <label class="filter-label">📚 Grade Level</label>
                         <select class="form-control filter-select" id="gradeFilter">
                             <option value="all">All Grade Levels</option>
-                            <option value="ECE">ECE</option>
+                            <option value="ECD 2">ECD 2</option>
+                            <option value="ECD 3">ECD 3</option>
                             <option value="Grade 1">Grade 1</option>
                             <option value="Grade 2">Grade 2</option>
                             <option value="Grade 3">Grade 3</option>
-                            <option value="Grade 4">Grade 4</option>
                         </select>
                     </div>
                     <div class="filter-group">
                         <label class="filter-label">📖 Material Type</label>
                         <select class="form-control filter-select" id="materialTypeFilter">
                             <option value="all">All Types</option>
-                            <option value="Decodable Reader">Decodable Reader</option>
-                            <option value="Leveled Reader">Leveled Reader</option>
                             <option value="Teacher Guide">Teacher Guide</option>
+                            <option value="Decodable Text">Decodable Text</option>
+                            <option value="Leveled Reader">Leveled Reader</option>
+                            <option value="Illustrations">Illustrations</option>
                         </select>
                     </div>
                     <button class="btn btn--outline reset-btn" id="resetFilters">Reset Filters</button>
@@ -1262,28 +1267,28 @@ body {
     </div>
 
     <script>
-        // Sample materials data
+        // Sample materials data with UPDATED options
         const materialsData = [
-            { material_id: "M001", language: "Fula", grade: "ECE", material_type: "Decodable Reader", status: "1st Draft Ready" },
-            { material_id: "M002", language: "Fula", grade: "Grade 1", material_type: "Decodable Reader", status: "1st Draft Ready" },
-            { material_id: "M003", language: "Mandinka", grade: "ECE", material_type: "Leveled Reader", status: "Internal Review Ongoing" },
-            { material_id: "M004", language: "Mandinka", grade: "Grade 1", material_type: "Decodable Reader", status: "1st Draft Ready" },
+            { material_id: "M001", language: "Fula", grade: "ECD 2", material_type: "Decodable Text", status: "1st Draft Ready" },
+            { material_id: "M002", language: "Fula", grade: "ECD 3", material_type: "Decodable Text", status: "1st Draft Ready" },
+            { material_id: "M003", language: "Mandinka", grade: "ECD 2", material_type: "Leveled Reader", status: "Internal Review Ongoing" },
+            { material_id: "M004", language: "Mandinka", grade: "Grade 1", material_type: "Decodable Text", status: "1st Draft Ready" },
             { material_id: "M005", language: "Wolof", grade: "Grade 2", material_type: "Leveled Reader", status: "Internal Review Completed" },
             { material_id: "M006", language: "Wolof", grade: "Grade 3", material_type: "Teacher Guide", status: "Internal Review Ongoing" },
-            { material_id: "M007", language: "Jola", grade: "ECE", material_type: "Decodable Reader", status: "1st Draft Ready" },
+            { material_id: "M007", language: "Jola", grade: "ECD 2", material_type: "Decodable Text", status: "1st Draft Ready" },
             { material_id: "M008", language: "Jola", grade: "Grade 1", material_type: "Leveled Reader", status: "Internal Review Ongoing" },
             { material_id: "M009", language: "English", grade: "Grade 2", material_type: "Teacher Guide", status: "Internal Review Completed" },
-            { material_id: "M010", language: "English", grade: "Grade 3", material_type: "Decodable Reader", status: "1st Draft Ready" },
-            { material_id: "M011", language: "Serahule", grade: "ECE", material_type: "Leveled Reader", status: "Internal Review Ongoing" },
+            { material_id: "M010", language: "English", grade: "Grade 3", material_type: "Illustrations", status: "1st Draft Ready" },
+            { material_id: "M011", language: "Serahule", grade: "ECD 3", material_type: "Leveled Reader", status: "Internal Review Ongoing" },
             { material_id: "M012", language: "Serahule", grade: "Grade 1", material_type: "Teacher Guide", status: "1st Draft Ready" },
-            { material_id: "M013", language: "Manjaku", grade: "Grade 2", material_type: "Decodable Reader", status: "Internal Review Completed" },
+            { material_id: "M013", language: "Manjaku", grade: "Grade 2", material_type: "Illustrations", status: "Internal Review Completed" },
             { material_id: "M014", language: "Manjaku", grade: "Grade 3", material_type: "Leveled Reader", status: "Internal Review Ongoing" },
-            { material_id: "M015", language: "Serer", grade: "ECE", material_type: "Teacher Guide", status: "1st Draft Ready" },
-            { material_id: "M016", language: "Serer", grade: "Grade 1", material_type: "Decodable Reader", status: "Internal Review Completed" },
-            { material_id: "M017", language: "Fula", grade: "Grade 2", material_type: "Leveled Reader", status: "Internal Review Ongoing" },
+            { material_id: "M015", language: "Serer", grade: "ECD 2", material_type: "Teacher Guide", status: "1st Draft Ready" },
+            { material_id: "M016", language: "Serer", grade: "Grade 1", material_type: "Decodable Text", status: "Internal Review Completed" },
+            { material_id: "M017", language: "Fula", grade: "Grade 2", material_type: "Illustrations", status: "Internal Review Ongoing" },
             { material_id: "M018", language: "Mandinka", grade: "Grade 3", material_type: "Teacher Guide", status: "1st Draft Ready" },
-            { material_id: "M019", language: "Wolof", grade: "Grade 4", material_type: "Decodable Reader", status: "Internal Review Completed" },
-            { material_id: "M020", language: "English", grade: "ECE", material_type: "Leveled Reader", status: "Internal Review Ongoing" }
+            { material_id: "M019", language: "Wolof", grade: "ECD 3", material_type: "Decodable Text", status: "Internal Review Completed" },
+            { material_id: "M020", language: "English", grade: "ECD 2", material_type: "Leveled Reader", status: "Internal Review Ongoing" }
         ];
 
         // Global variables for filters and data management
@@ -1487,7 +1492,7 @@ body {
         }
 
         function updateGradeBreakdown(data) {
-            const grades = ['ECE', 'Grade 1', 'Grade 2', 'Grade 3', 'Grade 4'];
+            const grades = ['ECD 2', 'ECD 3', 'Grade 1', 'Grade 2', 'Grade 3'];
             const tbody = document.getElementById('gradeBreakdown');
             tbody.innerHTML = '';
 
@@ -1507,7 +1512,7 @@ body {
         }
 
         function updateMaterialBreakdown(data) {
-            const materialTypes = ['Decodable Reader', 'Leveled Reader', 'Teacher Guide'];
+            const materialTypes = ['Teacher Guide', 'Decodable Text', 'Leveled Reader', 'Illustrations'];
             const tbody = document.getElementById('materialBreakdown');
             tbody.innerHTML = '';
 
@@ -1709,9 +1714,16 @@ body {
                         status: row[headers.indexOf('Status')] || ''
                     };
                     
-                    // Validate status
+                    // Validate data
                     const validStatuses = ['1st Draft Ready', 'Internal Review Ongoing', 'Internal Review Completed'];
-                    if (validStatuses.includes(material.status)) {
+                    const validMaterialTypes = ['Teacher Guide', 'Decodable Text', 'Leveled Reader', 'Illustrations'];
+                    const validGrades = ['ECD 2', 'ECD 3', 'Grade 1', 'Grade 2', 'Grade 3'];
+                    const validLanguages = ['Fula', 'Jola', 'Mandinka', 'Manjaku', 'Serahule', 'Serer', 'Wolof', 'English'];
+                    
+                    if (validStatuses.includes(material.status) && 
+                        validMaterialTypes.includes(material.material_type) &&
+                        validGrades.includes(material.grade) &&
+                        validLanguages.includes(material.language)) {
                         materials.push(material);
                     }
                 }
@@ -1754,29 +1766,29 @@ body {
             // Stop auto-refresh
             stopAutoRefresh();
             
-            // Reset to sample data
+            // Reset to sample data with UPDATED options
             materialsData.length = 0;
             materialsData.push(
-                { material_id: "M001", language: "Fula", grade: "ECE", material_type: "Decodable Reader", status: "1st Draft Ready" },
-                { material_id: "M002", language: "Fula", grade: "Grade 1", material_type: "Decodable Reader", status: "1st Draft Ready" },
-                { material_id: "M003", language: "Mandinka", grade: "ECE", material_type: "Leveled Reader", status: "Internal Review Ongoing" },
-                { material_id: "M004", language: "Mandinka", grade: "Grade 1", material_type: "Decodable Reader", status: "1st Draft Ready" },
+                { material_id: "M001", language: "Fula", grade: "ECD 2", material_type: "Decodable Text", status: "1st Draft Ready" },
+                { material_id: "M002", language: "Fula", grade: "ECD 3", material_type: "Decodable Text", status: "1st Draft Ready" },
+                { material_id: "M003", language: "Mandinka", grade: "ECD 2", material_type: "Leveled Reader", status: "Internal Review Ongoing" },
+                { material_id: "M004", language: "Mandinka", grade: "Grade 1", material_type: "Decodable Text", status: "1st Draft Ready" },
                 { material_id: "M005", language: "Wolof", grade: "Grade 2", material_type: "Leveled Reader", status: "Internal Review Completed" },
                 { material_id: "M006", language: "Wolof", grade: "Grade 3", material_type: "Teacher Guide", status: "Internal Review Ongoing" },
-                { material_id: "M007", language: "Jola", grade: "ECE", material_type: "Decodable Reader", status: "1st Draft Ready" },
+                { material_id: "M007", language: "Jola", grade: "ECD 2", material_type: "Decodable Text", status: "1st Draft Ready" },
                 { material_id: "M008", language: "Jola", grade: "Grade 1", material_type: "Leveled Reader", status: "Internal Review Ongoing" },
                 { material_id: "M009", language: "English", grade: "Grade 2", material_type: "Teacher Guide", status: "Internal Review Completed" },
-                { material_id: "M010", language: "English", grade: "Grade 3", material_type: "Decodable Reader", status: "1st Draft Ready" },
-                { material_id: "M011", language: "Serahule", grade: "ECE", material_type: "Leveled Reader", status: "Internal Review Ongoing" },
+                { material_id: "M010", language: "English", grade: "Grade 3", material_type: "Illustrations", status: "1st Draft Ready" },
+                { material_id: "M011", language: "Serahule", grade: "ECD 3", material_type: "Leveled Reader", status: "Internal Review Ongoing" },
                 { material_id: "M012", language: "Serahule", grade: "Grade 1", material_type: "Teacher Guide", status: "1st Draft Ready" },
-                { material_id: "M013", language: "Manjaku", grade: "Grade 2", material_type: "Decodable Reader", status: "Internal Review Completed" },
+                { material_id: "M013", language: "Manjaku", grade: "Grade 2", material_type: "Illustrations", status: "Internal Review Completed" },
                 { material_id: "M014", language: "Manjaku", grade: "Grade 3", material_type: "Leveled Reader", status: "Internal Review Ongoing" },
-                { material_id: "M015", language: "Serer", grade: "ECE", material_type: "Teacher Guide", status: "1st Draft Ready" },
-                { material_id: "M016", language: "Serer", grade: "Grade 1", material_type: "Decodable Reader", status: "Internal Review Completed" },
-                { material_id: "M017", language: "Fula", grade: "Grade 2", material_type: "Leveled Reader", status: "Internal Review Ongoing" },
+                { material_id: "M015", language: "Serer", grade: "ECD 2", material_type: "Teacher Guide", status: "1st Draft Ready" },
+                { material_id: "M016", language: "Serer", grade: "Grade 1", material_type: "Decodable Text", status: "Internal Review Completed" },
+                { material_id: "M017", language: "Fula", grade: "Grade 2", material_type: "Illustrations", status: "Internal Review Ongoing" },
                 { material_id: "M018", language: "Mandinka", grade: "Grade 3", material_type: "Teacher Guide", status: "1st Draft Ready" },
-                { material_id: "M019", language: "Wolof", grade: "Grade 4", material_type: "Decodable Reader", status: "Internal Review Completed" },
-                { material_id: "M020", language: "English", grade: "ECE", material_type: "Leveled Reader", status: "Internal Review Ongoing" }
+                { material_id: "M019", language: "Wolof", grade: "ECD 3", material_type: "Decodable Text", status: "Internal Review Completed" },
+                { material_id: "M020", language: "English", grade: "ECD 2", material_type: "Leveled Reader", status: "Internal Review Ongoing" }
             );
             
             filteredData = [...materialsData];
