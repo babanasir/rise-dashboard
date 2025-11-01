@@ -320,7 +320,7 @@ body {
 
         .metric-card.total::before { --metric-color: var(--color-primary); }
         .metric-card.draft-ready::before { --metric-color: #3b82f6; }
-        .metric-card.review-ongoing::before { --metric-color: #f59e0b; }
+        .metric-card.review-ongoing::before { --metric-color: #8b5cf6; }
         .metric-card.review-completed::before { --metric-color: #10b981; }
 
         .metric-header {
@@ -423,7 +423,7 @@ body {
         }
 
         .progress-segment.review-ongoing {
-            background: #f59e0b;
+            background: #8b5cf6;
         }
 
         .progress-segment.review-completed {
@@ -488,7 +488,7 @@ body {
         }
 
         .status-dot.draft-ready { background: #3b82f6; }
-        .status-dot.review-ongoing { background: #f59e0b; }
+        .status-dot.review-ongoing { background: #8b5cf6; }
         .status-dot.review-completed { background: #10b981; }
 
         /* Additional Details */
@@ -735,9 +735,9 @@ body {
         }
 
         .status-count.review-ongoing {
-            background: rgba(245, 158, 11, 0.1);
-            color: #f59e0b;
-            border: 1px solid rgba(245, 158, 11, 0.2);
+            background: rgba(139, 92, 246, 0.1);
+            color: #8b5cf6;
+            border: 1px solid rgba(139, 92, 246, 0.2);
         }
 
         .status-count.review-completed {
@@ -920,7 +920,7 @@ body {
                         <label class="filter-label">🌐 Language</label>
                         <select class="form-control filter-select" id="languageFilter">
                             <option value="all">All Languages</option>
-                            <option value="Pulaar">Pulaar</option>
+                            <option value="Fula">Fula</option>
                             <option value="Jola">Jola</option>
                             <option value="Mandinka">Mandinka</option>
                             <option value="Manjaku">Manjaku</option>
@@ -949,7 +949,6 @@ body {
                             <option value="Decodable Text">Decodable Text</option>
                             <option value="Leveled Reader">Leveled Reader</option>
                             <option value="Illustrations">Illustrations</option>
-                            <option value="Designs">Designs</option>
                         </select>
                     </div>
                     <button class="btn btn--outline reset-btn" id="resetFilters">Reset Filters</button>
@@ -972,29 +971,29 @@ body {
                         <span class="metric-icon">📝</span>
                         <span class="metric-label">1st Draft Ready</span>
                     </div>
-                    <div class="metric-value" id="draftReadyCount">8</div>
-                    <div class="metric-percentage" id="draftReadyPercentage">40.0%</div>
+                    <div class="metric-value" id="draftReadyCount">7</div>
+                    <div class="metric-percentage" id="draftReadyPercentage">35.0%</div>
                     <div class="tooltip-text">Materials that have completed initial drafting</div>
                 </div>
 
-                <div class="metric-card review-ongoing tooltip" data-status="Internal Review Ongoing">
+                <div class="metric-card review-ongoing tooltip" data-status="Expert Review Ongoing">
                     <div class="metric-header">
-                        <span class="metric-icon">👀</span>
-                        <span class="metric-label">Internal Review Ongoing</span>
+                        <span class="metric-icon">🔍</span>
+                        <span class="metric-label">Expert Review Ongoing</span>
                     </div>
-                    <div class="metric-value" id="reviewOngoingCount">7</div>
-                    <div class="metric-percentage" id="reviewOngoingPercentage">35.0%</div>
-                    <div class="tooltip-text">Materials currently under internal review</div>
+                    <div class="metric-value" id="reviewOngoingCount">6</div>
+                    <div class="metric-percentage" id="reviewOngoingPercentage">30.0%</div>
+                    <div class="tooltip-text">Materials currently under expert review</div>
                 </div>
 
-                <div class="metric-card review-completed tooltip" data-status="Internal Review Completed">
+                <div class="metric-card review-completed tooltip" data-status="Expert Review Completed">
                     <div class="metric-header">
                         <span class="metric-icon">✅</span>
-                        <span class="metric-label">Internal Review Completed</span>
+                        <span class="metric-label">Expert Review Completed</span>
                     </div>
-                    <div class="metric-value" id="reviewCompletedCount">5</div>
-                    <div class="metric-percentage" id="reviewCompletedPercentage">25.0%</div>
-                    <div class="tooltip-text">Materials that have passed internal review</div>
+                    <div class="metric-value" id="reviewCompletedCount">7</div>
+                    <div class="metric-percentage" id="reviewCompletedPercentage">35.0%</div>
+                    <div class="tooltip-text">Materials that have completed expert review</div>
                 </div>
             </section>
 
@@ -1004,25 +1003,25 @@ body {
                     <h2 class="progress-title">Development Progress Overview</h2>
                     <div class="progress-stats">
                         <div class="progress-stat">
-                            <div class="progress-stat-value" style="color: #3b82f6;" id="draftReadyProgress">40.0%</div>
+                            <div class="progress-stat-value" style="color: #3b82f6;" id="draftReadyProgress">35.0%</div>
                             <div class="progress-stat-label">1st Draft Ready</div>
                         </div>
                         <div class="progress-stat">
-                            <div class="progress-stat-value" style="color: #f59e0b;" id="reviewOngoingProgress">35.0%</div>
-                            <div class="progress-stat-label">Review Ongoing</div>
+                            <div class="progress-stat-value" style="color: #8b5cf6;" id="reviewOngoingProgress">30.0%</div>
+                            <div class="progress-stat-label">Expert Review Ongoing</div>
                         </div>
                         <div class="progress-stat">
-                            <div class="progress-stat-value" style="color: #10b981;" id="reviewCompletedProgress">25.0%</div>
-                            <div class="progress-stat-label">Review Completed</div>
+                            <div class="progress-stat-value" style="color: #10b981;" id="reviewCompletedProgress">35.0%</div>
+                            <div class="progress-stat-label">Expert Review Completed</div>
                         </div>
                     </div>
                 </div>
                 
                 <div class="progress-bar-container tooltip">
                     <div class="progress-bar" id="progressBar">
-                        <div class="progress-segment draft-ready" style="width: 40%;"></div>
-                        <div class="progress-segment review-ongoing" style="width: 35%;"></div>
-                        <div class="progress-segment review-completed" style="width: 25%;"></div>
+                        <div class="progress-segment draft-ready" style="width: 35%;"></div>
+                        <div class="progress-segment review-ongoing" style="width: 30%;"></div>
+                        <div class="progress-segment review-completed" style="width: 35%;"></div>
                     </div>
                     <div class="tooltip-text">Visual representation of materials development progress</div>
                 </div>
@@ -1047,8 +1046,8 @@ body {
                                 <tr>
                                     <th>Language</th>
                                     <th>1st Draft Ready</th>
-                                    <th>Internal Review Ongoing</th>
-                                    <th>Internal Review Completed</th>
+                                    <th>Expert Review Ongoing</th>
+                                    <th>Expert Review Completed</th>
                                     <th>Total</th>
                                 </tr>
                             </thead>
@@ -1061,8 +1060,8 @@ body {
                                 <tr>
                                     <th>Grade Level</th>
                                     <th>1st Draft Ready</th>
-                                    <th>Internal Review Ongoing</th>
-                                    <th>Internal Review Completed</th>
+                                    <th>Expert Review Ongoing</th>
+                                    <th>Expert Review Completed</th>
                                     <th>Total</th>
                                 </tr>
                             </thead>
@@ -1075,8 +1074,8 @@ body {
                                 <tr>
                                     <th>Material Type</th>
                                     <th>1st Draft Ready</th>
-                                    <th>Internal Review Ongoing</th>
-                                    <th>Internal Review Completed</th>
+                                    <th>Expert Review Ongoing</th>
+                                    <th>Expert Review Completed</th>
                                     <th>Total</th>
                                 </tr>
                             </thead>
@@ -1099,25 +1098,25 @@ body {
         
         // Sample materials data with UPDATED options (fallback)
         const materialsData = [
-            { material_id: "M001", language: "Pulaar", grade: "ECD 2", material_type: "Decodable Text", status: "1st Draft Ready" },
-            { material_id: "M002", language: "Pulaar", grade: "ECD 3", material_type: "Decodable Text", status: "1st Draft Ready" },
-            { material_id: "M003", language: "Mandinka", grade: "ECD 2", material_type: "Leveled Reader", status: "Internal Review Ongoing" },
+            { material_id: "M001", language: "Fula", grade: "ECD 2", material_type: "Decodable Text", status: "1st Draft Ready" },
+            { material_id: "M002", language: "Fula", grade: "ECD 3", material_type: "Decodable Text", status: "1st Draft Ready" },
+            { material_id: "M003", language: "Mandinka", grade: "ECD 2", material_type: "Leveled Reader", status: "Expert Review Ongoing" },
             { material_id: "M004", language: "Mandinka", grade: "Grade 1", material_type: "Decodable Text", status: "1st Draft Ready" },
-            { material_id: "M005", language: "Wolof", grade: "Grade 2", material_type: "Leveled Reader", status: "Internal Review Completed" },
-            { material_id: "M006", language: "Wolof", grade: "Grade 3", material_type: "Teacher Guide", status: "Internal Review Ongoing" },
+            { material_id: "M005", language: "Wolof", grade: "Grade 2", material_type: "Leveled Reader", status: "Expert Review Completed" },
+            { material_id: "M006", language: "Wolof", grade: "Grade 3", material_type: "Teacher Guide", status: "Expert Review Ongoing" },
             { material_id: "M007", language: "Jola", grade: "ECD 2", material_type: "Decodable Text", status: "1st Draft Ready" },
-            { material_id: "M008", language: "Jola", grade: "Grade 1", material_type: "Leveled Reader", status: "Internal Review Ongoing" },
-            { material_id: "M009", language: "English", grade: "Grade 2", material_type: "Teacher Guide", status: "Internal Review Completed" },
+            { material_id: "M008", language: "Jola", grade: "Grade 1", material_type: "Leveled Reader", status: "Expert Review Ongoing" },
+            { material_id: "M009", language: "English", grade: "Grade 2", material_type: "Teacher Guide", status: "Expert Review Completed" },
             { material_id: "M010", language: "English", grade: "Grade 3", material_type: "Illustrations", status: "1st Draft Ready" },
-            { material_id: "M011", language: "Serahule", grade: "ECD 3", material_type: "Leveled Reader", status: "Internal Review Ongoing" },
+            { material_id: "M011", language: "Serahule", grade: "ECD 3", material_type: "Leveled Reader", status: "Expert Review Ongoing" },
             { material_id: "M012", language: "Serahule", grade: "Grade 1", material_type: "Teacher Guide", status: "1st Draft Ready" },
-            { material_id: "M013", language: "Manjaku", grade: "Grade 2", material_type: "Illustrations", status: "Internal Review Completed" },
-            { material_id: "M014", language: "Manjaku", grade: "Grade 3", material_type: "Leveled Reader", status: "Internal Review Ongoing" },
+            { material_id: "M013", language: "Manjaku", grade: "Grade 2", material_type: "Illustrations", status: "Expert Review Completed" },
+            { material_id: "M014", language: "Manjaku", grade: "Grade 3", material_type: "Leveled Reader", status: "Expert Review Ongoing" },
             { material_id: "M015", language: "Serer", grade: "ECD 2", material_type: "Teacher Guide", status: "1st Draft Ready" },
-            { material_id: "M016", language: "Serer", grade: "Grade 1", material_type: "Decodable Text", status: "Internal Review Completed" },
-            { material_id: "M017", language: "Pulaar", grade: "Grade 2", material_type: "Illustrations", status: "Internal Review Ongoing" },
+            { material_id: "M016", language: "Serer", grade: "Grade 1", material_type: "Decodable Text", status: "Expert Review Completed" },
+            { material_id: "M017", language: "Fula", grade: "Grade 2", material_type: "Illustrations", status: "Expert Review Ongoing" },
             { material_id: "M018", language: "Mandinka", grade: "Grade 3", material_type: "Teacher Guide", status: "1st Draft Ready" },
-            { material_id: "M019", language: "Wolof", grade: "ECD 3", material_type: "Decodable Text", status: "Internal Review Completed" },
+            { material_id: "M019", language: "Wolof", grade: "ECD 3", material_type: "Decodable Text", status: "Expert Review Completed" },
             { material_id: "M020", language: "English", grade: "ECD 2", material_type: "Leveled Reader", status: "Internal Review Ongoing" }
         ];
 
@@ -1256,8 +1255,8 @@ body {
         function updateMetrics(data) {
             const total = data.length;
             const draftReady = data.filter(m => m.status === '1st Draft Ready').length;
-            const reviewOngoing = data.filter(m => m.status === 'Internal Review Ongoing').length;
-            const reviewCompleted = data.filter(m => m.status === 'Internal Review Completed').length;
+            const reviewOngoing = data.filter(m => m.status === 'Expert Review Ongoing').length;
+            const reviewCompleted = data.filter(m => m.status === 'Expert Review Completed').length;
 
             document.getElementById('totalCount').textContent = total;
             document.getElementById('draftReadyCount').textContent = draftReady;
@@ -1289,8 +1288,8 @@ body {
             }
 
             const draftReady = data.filter(m => m.status === '1st Draft Ready').length;
-            const reviewOngoing = data.filter(m => m.status === 'Internal Review Ongoing').length;
-            const reviewCompleted = data.filter(m => m.status === 'Internal Review Completed').length;
+            const reviewOngoing = data.filter(m => m.status === 'Expert Review Ongoing').length;
+            const reviewCompleted = data.filter(m => m.status === 'Expert Review Completed').length;
 
             const draftReadyPercent = (draftReady / total) * 100;
             const reviewOngoingPercent = (reviewOngoing / total) * 100;
@@ -1308,7 +1307,7 @@ body {
         }
 
         function updateLanguageBreakdown(data) {
-            const languages = ['Pulaar', 'Jola', 'Mandinka', 'Manjaku', 'Serahule', 'Serer', 'Wolof', 'English'];
+            const languages = ['Fula', 'Jola', 'Mandinka', 'Manjaku', 'Serahule', 'Serer', 'Wolof', 'English'];
             const tbody = document.getElementById('languageBreakdown');
             tbody.innerHTML = '';
 
@@ -1318,8 +1317,8 @@ body {
                     const row = createBreakdownRow(
                         language, 
                         languageData.filter(m => m.status === '1st Draft Ready').length,
-                        languageData.filter(m => m.status === 'Internal Review Ongoing').length,
-                        languageData.filter(m => m.status === 'Internal Review Completed').length,
+                        languageData.filter(m => m.status === 'Expert Review Ongoing').length,
+                        languageData.filter(m => m.status === 'Expert Review Completed').length,
                         languageData.length
                     );
                     tbody.appendChild(row);
@@ -1338,8 +1337,8 @@ body {
                     const row = createBreakdownRow(
                         grade,
                         gradeData.filter(m => m.status === '1st Draft Ready').length,
-                        gradeData.filter(m => m.status === 'Internal Review Ongoing').length,
-                        gradeData.filter(m => m.status === 'Internal Review Completed').length,
+                        gradeData.filter(m => m.status === 'Expert Review Ongoing').length,
+                        gradeData.filter(m => m.status === 'Expert Review Completed').length,
                         gradeData.length
                     );
                     tbody.appendChild(row);
@@ -1348,7 +1347,7 @@ body {
         }
 
         function updateMaterialBreakdown(data) {
-            const materialTypes = ['Teacher Guide', 'Decodable Text', 'Leveled Reader', 'Illustrations', 'Designs'];
+            const materialTypes = ['Teacher Guide', 'Decodable Text', 'Leveled Reader', 'Illustrations'];
             const tbody = document.getElementById('materialBreakdown');
             tbody.innerHTML = '';
 
@@ -1358,8 +1357,8 @@ body {
                     const row = createBreakdownRow(
                         materialType,
                         materialData.filter(m => m.status === '1st Draft Ready').length,
-                        materialData.filter(m => m.status === 'Internal Review Ongoing').length,
-                        materialData.filter(m => m.status === 'Internal Review Completed').length,
+                        materialData.filter(m => m.status === 'Expert Review Ongoing').length,
+                        materialData.filter(m => m.status === 'Expert Review Completed').length,
                         materialData.length
                     );
                     tbody.appendChild(row);
@@ -1488,26 +1487,26 @@ body {
         function resetToSampleData() {
             materialsData.length = 0;
             materialsData.push(
-                { material_id: "M001", language: "Pulaar", grade: "ECD 2", material_type: "Decodable Text", status: "1st Draft Ready" },
-                { material_id: "M002", language: "Pulaar", grade: "ECD 3", material_type: "Decodable Text", status: "1st Draft Ready" },
-                { material_id: "M003", language: "Mandinka", grade: "ECD 2", material_type: "Leveled Reader", status: "Internal Review Ongoing" },
+                { material_id: "M001", language: "Fula", grade: "ECD 2", material_type: "Decodable Text", status: "1st Draft Ready" },
+                { material_id: "M002", language: "Fula", grade: "ECD 3", material_type: "Decodable Text", status: "1st Draft Ready" },
+                { material_id: "M003", language: "Mandinka", grade: "ECD 2", material_type: "Leveled Reader", status: "Expert Review Ongoing" },
                 { material_id: "M004", language: "Mandinka", grade: "Grade 1", material_type: "Decodable Text", status: "1st Draft Ready" },
-                { material_id: "M005", language: "Wolof", grade: "Grade 2", material_type: "Leveled Reader", status: "Internal Review Completed" },
-                { material_id: "M006", language: "Wolof", grade: "Grade 3", material_type: "Teacher Guide", status: "Internal Review Ongoing" },
+                { material_id: "M005", language: "Wolof", grade: "Grade 2", material_type: "Leveled Reader", status: "Expert Review Completed" },
+                { material_id: "M006", language: "Wolof", grade: "Grade 3", material_type: "Teacher Guide", status: "Expert Review Ongoing" },
                 { material_id: "M007", language: "Jola", grade: "ECD 2", material_type: "Decodable Text", status: "1st Draft Ready" },
-                { material_id: "M008", language: "Jola", grade: "Grade 1", material_type: "Leveled Reader", status: "Internal Review Ongoing" },
-                { material_id: "M009", language: "English", grade: "Grade 2", material_type: "Teacher Guide", status: "Internal Review Completed" },
+                { material_id: "M008", language: "Jola", grade: "Grade 1", material_type: "Leveled Reader", status: "Expert Review Ongoing" },
+                { material_id: "M009", language: "English", grade: "Grade 2", material_type: "Teacher Guide", status: "Expert Review Completed" },
                 { material_id: "M010", language: "English", grade: "Grade 3", material_type: "Illustrations", status: "1st Draft Ready" },
-                { material_id: "M011", language: "Serahule", grade: "ECD 3", material_type: "Leveled Reader", status: "Internal Review Ongoing" },
+                { material_id: "M011", language: "Serahule", grade: "ECD 3", material_type: "Leveled Reader", status: "Expert Review Ongoing" },
                 { material_id: "M012", language: "Serahule", grade: "Grade 1", material_type: "Teacher Guide", status: "1st Draft Ready" },
-                { material_id: "M013", language: "Manjaku", grade: "Grade 2", material_type: "Illustrations", status: "Internal Review Completed" },
-                { material_id: "M014", language: "Manjaku", grade: "Grade 3", material_type: "Leveled Reader", status: "Internal Review Ongoing" },
+                { material_id: "M013", language: "Manjaku", grade: "Grade 2", material_type: "Illustrations", status: "Expert Review Completed" },
+                { material_id: "M014", language: "Manjaku", grade: "Grade 3", material_type: "Leveled Reader", status: "Expert Review Ongoing" },
                 { material_id: "M015", language: "Serer", grade: "ECD 2", material_type: "Teacher Guide", status: "1st Draft Ready" },
-                { material_id: "M016", language: "Serer", grade: "Grade 1", material_type: "Decodable Text", status: "Internal Review Completed" },
-                { material_id: "M017", language: "Pulaar", grade: "Grade 2", material_type: "Illustrations", status: "Internal Review Ongoing" },
+                { material_id: "M016", language: "Serer", grade: "Grade 1", material_type: "Decodable Text", status: "Expert Review Completed" },
+                { material_id: "M017", language: "Fula", grade: "Grade 2", material_type: "Illustrations", status: "Expert Review Ongoing" },
                 { material_id: "M018", language: "Mandinka", grade: "Grade 3", material_type: "Teacher Guide", status: "1st Draft Ready" },
-                { material_id: "M019", language: "Wolof", grade: "ECD 3", material_type: "Decodable Text", status: "Internal Review Completed" },
-                { material_id: "M020", language: "English", grade: "ECD 2", material_type: "Leveled Reader", status: "Internal Review Ongoing" }
+                { material_id: "M019", language: "Wolof", grade: "ECD 3", material_type: "Decodable Text", status: "Expert Review Completed" },
+                { material_id: "M020", language: "English", grade: "ECD 2", material_type: "Leveled Reader", status: "Expert Review Ongoing" }
             );
             filteredData = [...materialsData];
         }
@@ -1582,10 +1581,10 @@ body {
                     };
                     
                     // Validate data
-                    const validStatuses = ['1st Draft Ready', 'Internal Review Ongoing', 'Internal Review Completed'];
-                    const validMaterialTypes = ['Teacher Guide', 'Decodable Text', 'Leveled Reader', 'Illustrations', 'Designs'];
+                    const validStatuses = ['1st Draft Ready', 'Expert Review Ongoing', 'Expert Review Completed'];
+                    const validMaterialTypes = ['Teacher Guide', 'Decodable Text', 'Leveled Reader', 'Illustrations'];
                     const validGrades = ['ECD 2', 'ECD 3', 'Grade 1', 'Grade 2', 'Grade 3'];
-                    const validLanguages = ['Pulaar', 'Jola', 'Mandinka', 'Manjaku', 'Serahule', 'Serer', 'Wolof', 'English'];
+                    const validLanguages = ['Fula', 'Jola', 'Mandinka', 'Manjaku', 'Serahule', 'Serer', 'Wolof', 'English'];
                     
                     if (validStatuses.includes(material.status) && 
                         validMaterialTypes.includes(material.material_type) &&
