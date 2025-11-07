@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RISE External Review Tracking Dashboard</title>
+    <style>
+        :root {
+  /* Primitive Color Tokens */
+  --color-white: rgba(255, 255, 255, 1);
+  --color-black: rgba(0, 0, 0, 1);
+  --color-cream-50: rgba(252, 252, 249, 1);
+  --color-cream-100: rgba(255, 255, 253, 1);
+  --color-gray-200: rgba(245, 245, 245, 1);
+  --color-gray-300: rgba(167, 169, 169, 1);
+  --color-gray-400: rgba(119, 124, 124, 1);
+  --color-slate-500: rgba(98, 108, 113, 1);
+  --color-brown-600: rgba(94, 82, 64, 1);
+  --color-charcoal-700: rgba(31, 33, 33, 1);
+  --color-charcoal-800: rgba(38, 40, 40, 1);
+  --color-slate-900: rgba(19, 52, 59, 1);
+  --color-teal-300: rgba(50, 184, 198, 1);
+  --color-teal-400: rgba(45, 166, 178, 1);
+  --color-teal-500: rgba(33, 128, 141, 1);
+  --color-teal-600: rgba(29, 116, 128, 1);
+  --color-teal-700: rgba(26, 104, 115, 1);
+  --color-teal-800: rgba(41, 150, 161, 1);
+  --color-red-400: rgba(255, 84, 89, 1);
+  --color-red-500: rgba(192, 21, 47, 1);
+  --color-orange-400: rgba(230, 129, 97, 1);
+  --color-orange-500: rgba(168, 75, 47, 1);
+  --color-green-500: rgba(16, 185, 129, 1);
+  --color-blue-500: rgba(59, 130, 246, 1);
+
+  /* RGB versions for opacity control */
+  --color-brown-600-rgb: 94, 82, 64;
+  --color-teal-500-rgb: 33, 128, 141;
+  --color-slate-900-rgb: 19, 52, 59;
+  --color-slate-500-rgb: 98, 108, 113;
+  --color-red-500-rgb: 192, 21, 47;
+  --color-red-400-rgb: 255, 84, 89;
+  --color-orange-500-rgb: 168, 75, 47;
+  --color-orange-400-rgb: 230, 129, 97;
+
+  /* Background color tokens (Light Mode) */
+  --color-bg-1: rgba(59, 130, 246, 0.08);
+  --color-bg-2: rgba(245, 158, 11, 0.08);
+  --color-bg-3: rgba(34, 197, 94, 0.08);
+  --color-bg-4: rgba(239, 68, 68, 0.08);
+
+  /* Semantic Color Tokens (Light Mode) */
+  --color-background: var(--color-cream-50);
+  --color-surface: var(--color-cream-100);
+  --color-text: var(--color-slate-900);
+  --color-text-secondary: var(--color-slate-500);
+  --color-primary: var(--color-teal-500);
+  --color-primary-hover: var(--color-teal-600);
+  --color-primary-active: var(--color-teal-700);
+  --color-secondary: rgba(var(--color-brown-600-rgb), 0.12);
+  --color-secondary-hover: rgba(var(--color-brown-600-rgb), 0.2);
+  --color-secondary-active: rgba(var(--color-brown-600-rgb), 0.25);
+  --color-border: rgba(var(--color-brown-600-rgb), 0.2);
+  --color-btn-primary-text: var(--color-cream-50);
+  --color-card-border: rgba(var(--color-brown-600-rgb), 0.12);
+  --color-error: var(--color-red-500);
+  --color-success: var(--color-green-500);
+  --color-warning: var(--color-orange-500);
+  --color-info: var(--color-slate-500);
+  --color-focus-ring: rgba(var(--color-teal-500-rgb), 0.4);
+
+  /* Typography */
+  --font-family-base: "FKGroteskNeue", "Geist", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-size-xs: 11px;
+  --font-size-sm: 12px;
+  --font-size-base: 14px;
+  --font-size-md: 14px;
+  --font-size-lg: 16px;
+  --font-size-xl: 18px;
+  --font-size-2xl: 20px;
+  --font-size-3xl: 24px;
+  --font-size-4xl: 30px;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 550;
+  --font-weight-bold: 600;
+  --line-height-tight: 1.2;
+  --line-height-normal: 1.5;
+  --letter-spacing-tight: -0.01em;
+
+  /* Spacing */
+  --space-0: 0;
+  --space-4: 4px;
+  --space-8: 8px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --space-20: 20px;
+  --space-24: 24px;
+  --space-32: 32px;
+
+  /* Border Radius */
+  --radius-sm: 6px;
+  --radius-base: 8px;
+  --radius-md: 10px;
+  --radius-lg: 12px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.02);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.04), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+
+  /* Animation */
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --ease-standard: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Layout */
+  --container-xl: 1280px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-gray-400-rgb: 119, 124, 124;
+    --color-teal-300-rgb: 50, 184, 198;
+    --color-gray-300-rgb: 167, 169, 169;
+    --color-gray-200-rgb: 245, 245, 245;
+
+    --color-bg-1: rgba(29, 78, 216, 0.15);
+    --color-bg-2: rgba(180, 83, 9, 0.15);
+    --color-bg-3: rgba(21, 128, 61, 0.15);
+    --color-bg-4: rgba(185, 28, 28, 0.15);
+
+    --color-background: var(--color-charcoal-700);
+    --color-surface: var(--color-charcoal-800);
+    --color-text: var(--color-gray-200);
+    --color-text-secondary: rgba(var(--color-gray-300-rgb), 0.7);
+    --color-primary: var(--color-teal-300);
+    --color-primary-hover: var(--color-teal-400);
+    --color-primary-active: var(--color-teal-800);
+    --color-secondary: rgba(var(--color-gray-400-rgb), 0.15);
+    --color-secondary-hover: rgba(var(--color-gray-400-rgb), 0.25);
+    --color-border: rgba(var(--color-gray-400-rgb), 0.3);
+    --color-error: var(--color-red-400);
+    --color-success: var(--color-teal-300);
+    --color-warning: var(--color-orange-400);
+    --color-btn-primary-text: var(--color-slate-900);
+    --color-card-border: rgba(var(--color-gray-400-rgb), 0.2);
+  }
+}
+
+html {
+  font-size: var(--font-size-base);
+  font-family: var(--font-family-base);
+  line-height: var(--line-height-normal);
+  color: var(--color-text);
+  background-color: var(--color-background);
+  -webkit-font-smoothing: antialiased;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--color-background);
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+@font-face {
+  font-family: 'FKGroteskNeue';
+  src: url('https://r2cdn.perplexity.ai/fonts/FKGroteskNeue.woff2') format('woff2');
+}
+
+.dashboard {
+  min-height: 100vh;
+  background-color: var(--color-background);
+  padding: var(--space-24);
+}
+
+.container {
+  max-width: var(--container-xl);
+  margin: 0 auto;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: var(--space-32);
+  padding-bottom: var(--space-24);
+  border-bottom: 2px solid var(--color-border);
+}
+
+.header h1 {
+  font-size: var(--font-size-4xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text);
+  margin-bottom: var(--space-8);
+  letter-spacing: var(--letter-spacing-tight);
+}
+
+.header .subtitle {
+  font-size: var(--font-size-xl);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-16);
+}
+
+.btn {
+  padding: var(--space-8) var(--space-16);
+  border-radius: var(--radius-base);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text);
+  transition: all var(--duration-fast) var(--ease-standard);
+}
+
+.btn:hover {
+  background: var(--color-secondary-hover);
+}
+
+.btn--primary {
+  background: var(--color-primary);
+  color: var(--color-btn-primary-text);
+  border-color: var(--color-primary);
+}
+
+.btn--primary:hover {
+  background: var(--color-primary-hover);
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-20);
+  margin-bottom: var(--space-32);
+}
+
+.metric-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-24);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--duration-normal) var(--ease-standard);
+  position: relative;
+  overflow: hidden;
+}
+
+.metric-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.metric-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--metric-color, var(--color-primary));
+}
+
+.metric-card.total::before { --metric-color: var(--color-primary); }
+.metric-card.submitted::before { --metric-color: #3b82f6; }
+.metric-card.pending::before { --metric-color: #f59e0b; }
+.metric-card.approved::before { --metric-color: #10b981; }
+.metric-card.needs-revision::before { --metric-color: #dc2626; }
+
+.metric-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: var(--space-16);
+}
+
+.metric-icon {
+  font-size: var(--font-size-3xl);
+  margin-right: var(--space-12);
+}
+
+.metric-label {
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+  font-weight: var(--font-weight-medium);
+}
+
+.metric-value {
+  font-size: 2.5rem;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text);
+  line-height: 1;
+}
+
+.metric-percentage {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin-top: var(--space-4);
+}
+
+.filter-panel {
+  background: var(--color-surface);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-24);
+  margin-bottom: var(--space-32);
+  box-shadow: var(--shadow-sm);
+}
+
+.filter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-20);
+}
+
+.filter-title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text);
+  margin: 0;
+}
+
+.filter-controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr auto;
+  gap: var(--space-20);
+  align-items: end;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.filter-label {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-8);
+}
+
+.form-control {
+  padding: var(--space-8) var(--space-12);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-base);
+  font-size: var(--font-size-base);
+  background: var(--color-surface);
+  color: var(--color-text);
+  transition: border-color var(--duration-fast);
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-focus-ring);
+}
+
+.reviews-table-container {
+  background: var(--color-surface);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-24);
+  box-shadow: var(--shadow-sm);
+  overflow-x: auto;
+  margin-bottom: var(--space-32);
+}
+
+.reviews-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--font-size-sm);
+}
+
+.reviews-table th {
+  background: var(--color-secondary);
+  padding: var(--space-12);
+  text-align: left;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text);
+  border-bottom: 2px solid var(--color-border);
+  white-space: nowrap;
+}
+
+.reviews-table td {
+  padding: var(--space-12);
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text);
+}
+
+.reviews-table tr:hover {
+  background: var(--color-secondary);
+}
+
+.status-badge {
+  display: inline-block;
+  padding: var(--space-4) var(--space-12);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  white-space: nowrap;
+}
+
+.status-badge.approved {
+  background: rgba(16, 185, 129, 0.1);
+  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.status-badge.needs-revision {
+  background: rgba(220, 38, 38, 0.1);
+  color: #dc2626;
+  border: 1px solid rgba(220, 38, 38, 0.2);
+}
+
+.status-badge.pending {
+  background: rgba(245, 158, 11, 0.1);
+  color: #f59e0b;
+  border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--color-background);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  opacity: 1;
+  transition: opacity var(--duration-normal) var(--ease-standard);
+}
+
+.loading-overlay.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid var(--color-secondary);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loading-text {
+  margin-top: var(--space-20);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-lg);
+}
+
+.empty-state {
+  text-align: center;
+  padding: var(--space-32);
+  color: var(--color-text-secondary);
+}
+
+.empty-state-icon {
+  font-size: 3rem;
+  margin-bottom: var(--space-16);
+}
+
+@media (max-width: 768px) {
+  .dashboard {
+    padding: var(--space-16);
+  }
+
+  .metrics-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .filter-controls {
+    grid-template-columns: 1fr;
+  }
+
+  .header h1 {
+    font-size: var(--font-size-3xl);
+  }
+
+  .reviews-table {
+    font-size: var(--font-size-xs);
+  }
+
+  .reviews-table th,
+  .reviews-table td {
+    padding: var(--space-8);
+  }
+}
+    </style>
+</head>
+<body>
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">Loading review data...</div>
+    </div>
+
+    <div class="dashboard">
+        <div class="container">
+            <header class="header">
+                <h1>📋 RISE External Review Dashboard</h1>
+                <div class="subtitle">The Gambia Early Grade Reading Materials - Expert Review Tracking</div>
+                <div style="margin-top: var(--space-16); display: flex; gap: var(--space-12); justify-content: center; align-items: center; flex-wrap: wrap;">
+                    <div style="background: var(--color-secondary); padding: var(--space-8) var(--space-16); border-radius: var(--radius-full); font-size: var(--font-size-sm);" id="lastUpdated">Last updated: Loading...</div>
+                    <button class="btn" id="refreshNowBtn" style="font-size: var(--font-size-sm);">🔄 Refresh</button>
+                </div>
+            </header>
+
+            <section class="filter-panel">
+                <div class="filter-header">
+                    <h3 class="filter-title">🔍 Filter Reviews</h3>
+                </div>
+                <div class="filter-controls">
+                    <div class="filter-group">
+                        <label class="filter-label">🌐 Language</label>
+                        <select class="form-control" id="languageFilter">
+                            <option value="all">All Languages</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">📚 Grade Level</label>
+                        <select class="form-control" id="gradeFilter">
+                            <option value="all">All Grades</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">📊 Status</label>
+                        <select class="form-control" id="statusFilter">
+                            <option value="all">All Statuses</option>
+                            <option value="Approved">Approved</option>
+                            <option value="Needs Revision">Needs Revision</option>
+                            <option value="Pending">Pending</option>
+                        </select>
+                    </div>
+                    <button class="btn" id="resetFilters">Reset Filters</button>
+                </div>
+            </section>
+
+            <section class="metrics-grid">
+                <div class="metric-card total">
+                    <div class="metric-header">
+                        <span class="metric-icon">📚</span>
+                        <span class="metric-label">Total Reviews</span>
+                    </div>
+                    <div class="metric-value" id="totalCount">0</div>
+                </div>
+
+                <div class="metric-card submitted">
+                    <div class="metric-header">
+                        <span class="metric-icon">📝</span>
+                        <span class="metric-label">Submitted</span>
+                    </div>
+                    <div class="metric-value" id="submittedCount">0</div>
+                    <div class="metric-percentage" id="submittedPercentage">0%</div>
+                </div>
+
+                <div class="metric-card approved">
+                    <div class="metric-header">
+                        <span class="metric-icon">✅</span>
+                        <span class="metric-label">Approved</span>
+                    </div>
+                    <div class="metric-value" id="approvedCount">0</div>
+                    <div class="metric-percentage" id="approvedPercentage">0%</div>
+                </div>
+
+                <div class="metric-card needs-revision">
+                    <div class="metric-header">
+                        <span class="metric-icon">🔄</span>
+                        <span class="metric-label">Needs Revision</span>
+                    </div>
+                    <div class="metric-value" id="needsRevisionCount">0</div>
+                    <div class="metric-percentage" id="needsRevisionPercentage">0%</div>
+                </div>
+
+                <div class="metric-card pending">
+                    <div class="metric-header">
+                        <span class="metric-icon">⏳</span>
+                        <span class="metric-label">Pending</span>
+                    </div>
+                    <div class="metric-value" id="pendingCount">0</div>
+                    <div class="metric-percentage" id="pendingPercentage">0%</div>
+                </div>
+            </section>
+
+            <section class="reviews-table-container">
+                <h3 style="margin-top: 0; margin-bottom: var(--space-20); font-size: var(--font-size-xl);">📋 Review Details</h3>
+                <div id="tableContent"></div>
+            </section>
+        </div>
+    </div>
+
+    <script>
+        // ========================================
+        // CONFIGURATION
+        // ========================================
+        const GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTzDz36p6rDkhhi8K2ZMkNg8w4n0MGEbk8w2kyrvASbOMDb3ypqdxpnHg6WXK0IWVd7hBG5naS1S1xk/pub?output=csv";
+        
+        const REFRESH_INTERVAL = 5 * 60 * 1000; // 5 minutes
+
+        // ========================================
+        // GLOBAL STATE
+        // ========================================
+        let reviewsData = [];
+        let filteredData = [];
+        let lastUpdateTime = null;
+        let currentFilters = {
+            language: 'all',
+            grade: 'all',
+            status: 'all'
+        };
+
+        // ========================================
+        // INITIALIZATION
+        // ========================================
+        document.addEventListener('DOMContentLoaded', async function() {
+            initializeEventListeners();
+            await loadDataFromGoogleSheets();
+            
+            setTimeout(() => {
+                document.getElementById('loadingOverlay').classList.add('hidden');
+            }, 500);
+            
+            // Auto-refresh every 5 minutes
+            setInterval(() => {
+                loadDataFromGoogleSheets(true);
+            }, REFRESH_INTERVAL);
+        });
+
+        function initializeEventListeners() {
+            document.getElementById('languageFilter').addEventListener('change', handleFilterChange);
+            document.getElementById('gradeFilter').addEventListener('change', handleFilterChange);
+            document.getElementById('statusFilter').addEventListener('change', handleFilterChange);
+            document.getElementById('resetFilters').addEventListener('click', resetFilters);
+            document.getElementById('refreshNowBtn').addEventListener('click', () => loadDataFromGoogleSheets());
+        }
+
+        // ========================================
+        // DATA FETCHING
+        // ========================================
+        async function loadDataFromGoogleSheets(silent = false) {
+            try {
+                if (!silent) {
+                    document.getElementById('lastUpdated').textContent = 'Loading data...';
+                }
+                
+                const response = await fetch(GOOGLE_SHEET_CSV_URL);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const csvText = await response.text();
+                const data = parseCSV(csvText);
+                
+                if (data && data.length > 0) {
+                    reviewsData = data;
+                    filteredData = [...reviewsData];
+                    lastUpdateTime = new Date();
+                    
+                    populateFilterOptions();
+                    updateDashboard();
+                    updateLastUpdatedDisplay();
+                    
+                    console.log(`✅ Loaded ${data.length} reviews successfully`);
+                } else {
+                    throw new Error('No valid review data found');
+                }
+            } catch (error) {
+                console.error('❌ Error loading data:', error);
+                
+                if (!silent) {
+                    document.getElementById('lastUpdated').textContent = 'Error loading data';
+                }
+            }
+        }
+
+        function parseCSV(csvText) {
+            const lines = csvText.trim().split('\n');
+            
+            if (lines.length < 2) {
+                return [];
+            }
+            
+            const headers = parseCSVRow(lines[0]);
+            const reviews = [];
+            
+            for (let i = 1; i < lines.length; i++) {
+                const row = parseCSVRow(lines[i]);
+                
+                if (row.length >= headers.length && row[0]) {
+                    const review = {
+                        timestamp: row[headers.indexOf('Timestamp')] || '',
+                        documentType: row[headers.indexOf('Document Type ')] || row[headers.indexOf('Document Type')] || '',
+                        language: row[headers.indexOf('Language')] || '',
+                        gradeLevel: row[headers.indexOf('Grade/Level')] || '',
+                        reviewerName: row[headers.indexOf('Name of Reviewer')] || '',
+                        documentTitle: row[headers.indexOf('Document Title')] || '',
+                        sourceLink: row[headers.indexOf(' Link to Source Document  ')] || row[headers.indexOf('Link to Source Document')] || '',
+                        q1Aligns: row[headers.indexOf('Q1. Aligns with MoBSE national curriculum standards')] || '',
+                        q2Scope: row[headers.indexOf('Q2. Reflects MoBSE-approved scope and sequence')] || '',
+                        q3Literacy: row[headers.indexOf('Q3. Supports foundational learning outcomes for literacy')] || '',
+                        comments1: row[headers.indexOf('  Comments/Action Required (Section 1)  ')] || row[headers.indexOf('Comments/Action Required (Section 1)')] || '',
+                        orthography: row[headers.indexOf('Uses correct orthography and spelling')] || '',
+                        textComplexity: row[headers.indexOf('Text complexity matches the intended reading level')] || '',
+                        progression: row[headers.indexOf('Progression is gradual')] || '',
+                        repetition: row[headers.indexOf('Repetition and pattern support emerging readers')] || '',
+                        comments2: row[headers.indexOf('  Comments/Action Required (Section 2)  ')] || row[headers.indexOf('Comments/Action Required (Section 2)')] || '',
+                        strengths: row[headers.indexOf('Strengths of this document (Paragraph)')] || '',
+                        priorityActions: row[headers.indexOf('  Priority action items (must be addressed before approval)  ')] || row[headers.indexOf('Priority action items (must be addressed before approval)')] || '',
+                        recommendation: row[headers.indexOf('Overall Recommendation')] || '',
+                        additionalNotes: row[headers.indexOf('Additional Review Notes (if available)')] || '',
+                        reviewerSignature: row[headers.indexOf('Reviewer Signature (Typed Name)')] || '',
+                        date: row[headers.indexOf('Date')] || ''
+                    };
+                    
+                    // Only add if has meaningful data (not just timestamp)
+                    if (review.documentTitle || review.reviewerName || review.recommendation) {
+                        reviews.push(review);
+                    }
+                }
+            }
+            
+            return reviews;
+        }
+
+        function parseCSVRow(row) {
+            const result = [];
+            let current = '';
+            let inQuotes = false;
+            
+            for (let i = 0; i < row.length; i++) {
+                const char = row[i];
+                
+                if (char === '"') {
+                    inQuotes = !inQuotes;
+                } else if (char === ',' && !inQuotes) {
+                    result.push(current.trim());
+                    current = '';
+                } else {
+                    current += char;
+                }
+            }
+            
+            result.push(current.trim());
+            return result;
+        }
+
+        // ========================================
+        // FILTER MANAGEMENT
+        // ========================================
+        function populateFilterOptions() {
+            // Populate language filter
+            const languages = [...new Set(reviewsData.map(r => r.language).filter(Boolean))].sort();
+            const languageFilter = document.getElementById('languageFilter');
+            const currentLanguage = languageFilter.value;
+            
+            languageFilter.innerHTML = '<option value="all">All Languages</option>';
+            languages.forEach(lang => {
+                const option = document.createElement('option');
+                option.value = lang;
+                option.textContent = lang;
+                languageFilter.appendChild(option);
+            });
+            languageFilter.value = currentLanguage;
+            
+            // Populate grade filter
+            const grades = [...new Set(reviewsData.map(r => r.gradeLevel).filter(Boolean))].sort();
+            const gradeFilter = document.getElementById('gradeFilter');
+            const currentGrade = gradeFilter.value;
+            
+            gradeFilter.innerHTML = '<option value="all">All Grades</option>';
+            grades.forEach(grade => {
+                const option = document.createElement('option');
+                option.value = grade;
+                option.textContent = grade;
+                gradeFilter.appendChild(option);
+            });
+            gradeFilter.value = currentGrade;
+        }
+
+        function handleFilterChange() {
+            currentFilters.language = document.getElementById('languageFilter').value;
+            currentFilters.grade = document.getElementById('gradeFilter').value;
+            currentFilters.status = document.getElementById('statusFilter').value;
+            
+            applyFilters();
+            updateDashboard();
+        }
+
+        function applyFilters() {
+            filteredData = reviewsData.filter(review => {
+                const languageMatch = currentFilters.language === 'all' || review.language === currentFilters.language;
+                const gradeMatch = currentFilters.grade === 'all' || review.gradeLevel === currentFilters.grade;
+                const statusMatch = currentFilters.status === 'all' || getReviewStatus(review) === currentFilters.status;
+                
+                return languageMatch && gradeMatch && statusMatch;
+            });
+        }
+
+        function resetFilters() {
+            document.getElementById('languageFilter').value = 'all';
+            document.getElementById('gradeFilter').value = 'all';
+            document.getElementById('statusFilter').value = 'all';
+            
+            currentFilters = { language: 'all', grade: 'all', status: 'all' };
+            filteredData = [...reviewsData];
+            
+            updateDashboard();
+        }
+
+        function getReviewStatus(review) {
+            const rec = review.recommendation.toLowerCase();
+            
+            if (rec.includes('approve') && !rec.includes('not')) {
+                return 'Approved';
+            } else if (rec.includes('revision') || rec.includes('revise')) {
+                return 'Needs Revision';
+            } else if (rec) {
+                return 'Pending';
+            }
+            return 'Pending';
+        }
+
+        // ========================================
+        // DASHBOARD UPDATE
+        // ========================================
+        function updateDashboard() {
+            updateMetrics();
+            updateTable();
+        }
+
+        function updateMetrics() {
+            const total = filteredData.length;
+            const submitted = filteredData.filter(r => r.recommendation).length;
+            const approved = filteredData.filter(r => getReviewStatus(r) === 'Approved').length;
+            const needsRevision = filteredData.filter(r => getReviewStatus(r) === 'Needs Revision').length;
+            const pending = filteredData.filter(r => getReviewStatus(r) === 'Pending').length;
+
+            document.getElementById('totalCount').textContent = total;
+            document.getElementById('submittedCount').textContent = submitted;
+            document.getElementById('approvedCount').textContent = approved;
+            document.getElementById('needsRevisionCount').textContent = needsRevision;
+            document.getElementById('pendingCount').textContent = pending;
+
+            // Update percentages
+            const submittedPercent = total > 0 ? ((submitted / total) * 100).toFixed(1) : '0.0';
+            const approvedPercent = total > 0 ? ((approved / total) * 100).toFixed(1) : '0.0';
+            const needsRevisionPercent = total > 0 ? ((needsRevision / total) * 100).toFixed(1) : '0.0';
+            const pendingPercent = total > 0 ? ((pending / total) * 100).toFixed(1) : '0.0';
+
+            document.getElementById('submittedPercentage').textContent = submittedPercent + '%';
+            document.getElementById('approvedPercentage').textContent = approvedPercent + '%';
+            document.getElementById('needsRevisionPercentage').textContent = needsRevisionPercent + '%';
+            document.getElementById('pendingPercentage').textContent = pendingPercent + '%';
+        }
+
+        function updateTable() {
+            const tableContent = document.getElementById('tableContent');
+            
+            if (filteredData.length === 0) {
+                tableContent.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📭</div>
+                        <p>No reviews found matching the current filters.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            let tableHTML = `
+                <table class="reviews-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Document Title</th>
+                            <th>Type</th>
+                            <th>Language</th>
+                            <th>Grade</th>
+                            <th>Reviewer</th>
+                            <th>Status</th>
+                            <th>Recommendation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            filteredData.forEach(review => {
+                const status = getReviewStatus(review);
+                const statusClass = status.toLowerCase().replace(' ', '-');
+                const date = review.timestamp ? new Date(review.timestamp).toLocaleDateString() : '';
+                
+                tableHTML += `
+                    <tr>
+                        <td>${date}</td>
+                        <td><strong>${review.documentTitle || 'Untitled'}</strong></td>
+                        <td>${review.documentType || '-'}</td>
+                        <td>${review.language || '-'}</td>
+                        <td>${review.gradeLevel || '-'}</td>
+                        <td>${review.reviewerName || '-'}</td>
+                        <td><span class="status-badge ${statusClass}">${status}</span></td>
+                        <td style="max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${review.recommendation || '-'}</td>
+                    </tr>
+                `;
+            });
+
+            tableHTML += `
+                    </tbody>
+                </table>
+            `;
+
+            tableContent.innerHTML = tableHTML;
+        }
+
+        function updateLastUpdatedDisplay() {
+            if (!lastUpdateTime) {
+                document.getElementById('lastUpdated').textContent = 'Last updated: Never';
+                return;
+            }
+            
+            const now = new Date();
+            const seconds = Math.floor((now - lastUpdateTime) / 1000);
+            
+            let updateText;
+            if (seconds < 10) {
+                updateText = 'Last updated: just now';
+            } else if (seconds < 60) {
+                updateText = `Last updated: ${seconds} seconds ago`;
+            } else {
+                const minutes = Math.floor(seconds / 60);
+                updateText = `Last updated: ${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+            }
+            
+            document.getElementById('lastUpdated').textContent = updateText;
+        }
+
+        // Update timestamp every 30 seconds
+        setInterval(updateLastUpdatedDisplay, 30000);
+    </script>
+</body>
+</html>
